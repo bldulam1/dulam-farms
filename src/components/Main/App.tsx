@@ -1,9 +1,10 @@
 import AppContext, { AppState } from './App.Context'
 import React, { useState } from 'react'
-import { ThemeProvider, createMuiTheme, useMediaQuery } from '@material-ui/core'
 
 import AppTheme from './App.Theme'
 import LandingPage from '../Pages/Landing/LandingPage'
+import { ThemeProvider } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 export default () => {
   const [state, setState] = useState<AppState>({
