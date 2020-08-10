@@ -1,6 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/f5ffb6a8-0add-42b3-af66-d48aae2d1c6d/deploy-status)](https://app.netlify.com/sites/dulam-farms-dev/deploys)
+[![CircleCI](https://circleci.com/gh/bldulam1/dulam-farms.svg?style=shield&circle-token=b8fa3ffe3c762ab662e01efb15a2491ef1a59786)](https://app.circleci.com/pipelines/github/bldulam1/dulam-farms)
 
 ## Available Scripts
 
