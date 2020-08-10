@@ -4,6 +4,17 @@ export default makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
   },
+  toolbar: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  toolbarItem: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(8, 0, 6),
