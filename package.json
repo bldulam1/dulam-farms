@@ -46,7 +46,7 @@
     "prettier": "2.0.5"
   },
   "lint-staged": {
-    "*.{js,css,md}": "yarn format"
+    "*.{js,css,md,ts,tsx,jsx}": "prettier --write"
   },
   "husky": {
     "hooks": {
