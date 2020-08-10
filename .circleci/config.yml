@@ -23,4 +23,4 @@ jobs:
           command: yarn build
 
       - store_artifacts:
-          path: ./build.zip
+          path: ./build
