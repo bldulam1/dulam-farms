@@ -7,7 +7,7 @@ export default () => {
     <div>
       <LandingAppBar />
       <div>
-        <Typography variant="h3">Piggery</Typography>
+        <Typography variant="h3">Broiler</Typography>
       </div>
     </div>
   )
