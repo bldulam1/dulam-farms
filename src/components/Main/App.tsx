@@ -5,6 +5,8 @@ import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import AppTheme from './App.Theme'
 import BroilerMain from '../Pages/Broiler/Broiler.Main'
 import CattleMain from '../Pages/Cattle/Cattle.Main'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import LandingAppBar from '../Pages/Landing/Landing.AppBar'
 import LandingPage from '../Pages/Landing/LandingPage'
 import PiggeryMain from '../Pages/Piggery/Piggery.Main'
 import { ThemeProvider } from '@material-ui/core/styles'
@@ -23,6 +25,8 @@ export default () => {
     <ThemeProvider theme={theme}>
       <AppContext.Provider value={{ setState, state }}>
         <Router>
+          <CssBaseline />
+          <LandingAppBar />
           <Switch>
             <Route path="/piggery">
               <PiggeryMain />

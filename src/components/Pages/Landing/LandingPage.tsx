@@ -4,9 +4,7 @@ import CardActionArea from '@material-ui/core/CardActionArea'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Container from '@material-ui/core/Container'
-import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
-import LandingAppBar from './Landing.AppBar'
 import LandingFooter from './Landing.Footer'
 import LandingStyles from './Landing.Styles'
 import Link from '@material-ui/core/Link'
@@ -20,8 +18,6 @@ export default function () {
 
   return (
     <React.Fragment>
-      <CssBaseline />
-      <LandingAppBar />
       <main>
         <div className={classes.heroContent}>
           <Container maxWidth="md">
