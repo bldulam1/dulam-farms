@@ -3,14 +3,15 @@ version: '3.7'
 services:
   dulam-farms:
     container_name: dulam-farms
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
 
-    volumes: 
-      - './:app'
+    volumes:
+      - '.:/app'
       - '/app/node_modules'
     ports:
       - 3001:3000
-    environment: 
+    tty: true
+    environment:
       - CHOKIDAR_USEPOLLING=true
