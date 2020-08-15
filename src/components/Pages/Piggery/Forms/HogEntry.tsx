@@ -1,35 +1,35 @@
 import { Controller, useForm } from 'react-hook-form'
-import React, { useState } from 'react'
 
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardHeader from '@material-ui/core/CardHeader'
-import Checkbox from '@material-ui/core/Checkbox'
-import { FormControlLabel } from '@material-ui/core'
+import FormControl from '@material-ui/core/FormControl'
 import Grid from '@material-ui/core/Grid'
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import React from 'react'
+import ReactHookFormSelect from './ReactHookFormSelect'
+import Select from '@material-ui/core/Select'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import { yyyyMMdd } from './Forms.util'
 
-interface ISowEntry {
-  sowID: string
+interface IHogEntry {
+  hogId: string
   birthDate: string
-  purchaseDate: string
-  nipplesCount: number
+  recordDate: string
   fatherPigID: string
   motherPigID: string
-  breed: string
+  sex: 'Male' | 'Female'
+  nipplesCount: number
 }
 
 export default () => {
-  const { control, handleSubmit } = useForm<ISowEntry>()
-  const [isImported, setIsImported] = useState(false)
+  const { control, handleSubmit } = useForm<IHogEntry>()
 
-  const handleImportedToggle = () => setIsImported((s) => !s)
-
-  const onSubmit = (data: ISowEntry) => {
+  const onSubmit = (data: IHogEntry) => {
     console.log(data)
   }
 
@@ -54,21 +54,30 @@ export default () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <CardHeader title="New Hog Form" />
         <CardContent>
+          <Typography variant="h6">Basic Info</Typography>
+
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <Controller
-                name="sowID"
-                label="New Sow ID"
+                name="hogId"
+                label="Hog ID"
                 required
                 {...parentsControlProps}
               />
-              <Controller
-                name="breed"
-                label="Breed"
-                required
-                {...parentsControlProps}
-              />
+              <ReactHookFormSelect
+                id="sex"
+                name="sex"
+                label="Sex"
+                control={control}
+                defaultValue="Female"
+                margin="normal"
+                fullWidth
+              >
+                <MenuItem value="Male">Male</MenuItem>
+                <MenuItem value="Female">Female</MenuItem>
+              </ReactHookFormSelect>
             </Grid>
+
             <Grid item xs={12} sm={6}>
               <Controller
                 name="nipplesCount"
@@ -77,34 +86,21 @@ export default () => {
                 required
                 {...parentsControlProps}
               />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={isImported}
-                    onClick={handleImportedToggle}
-                  />
-                }
-                label="Is Imported"
-              />
             </Grid>
             <Grid item xs={12} sm={6}>
               <Typography variant="h6">Parents</Typography>
               <Controller
                 name="fatherPigID"
                 label="Father Pig ID"
-                required={!isImported}
-                disabled={isImported}
                 {...parentsControlProps}
               />
               <Controller
                 name="motherPigID"
                 label="Mother Pig ID"
-                required={!isImported}
-                disabled={isImported}
                 {...parentsControlProps}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={6}>
+            <Grid item xs={12} sm={6}>
               <Typography variant="h6">Dates</Typography>
               <Controller
                 label="Birth Date"
@@ -113,10 +109,11 @@ export default () => {
                 {...datesControlProps}
               />
               <Controller
-                disabled={!isImported}
-                required={isImported}
-                label="Parchase Date"
-                name="purchaseDate"
+                label="Record Date"
+                name="recordDate"
+                InputProps={{
+                  readOnly: true,
+                }}
                 {...datesControlProps}
               />
             </Grid>
