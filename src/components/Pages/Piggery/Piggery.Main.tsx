@@ -1,3 +1,4 @@
+import BoarEntry from './Forms/BoarEntry'
 import Container from '@material-ui/core/Container'
 import HogEntry from './Forms/HogEntry'
 import React from 'react'
@@ -8,6 +9,7 @@ export default () => {
     <Container maxWidth="lg">
       <SowEntry />
       <HogEntry />
+      <BoarEntry />
     </Container>
   )
 }
