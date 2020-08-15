@@ -13,12 +13,13 @@ import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 
 interface ISowEntry {
+  sowID: string
   birthDate: string
   purchaseDate: string
   nipplesCount: number
   fatherPigID: string
   motherPigID: string
-  Breed: string
+  breed: string
 }
 
 const yyyyMMdd = (date: Date) => {
@@ -34,9 +35,7 @@ export default () => {
   const { control, handleSubmit } = useForm<ISowEntry>()
   const [isImported, setIsImported] = useState(false)
 
-  const handleImportedToggle = () => {
-    setIsImported((s) => !s)
-  }
+  const handleImportedToggle = () => setIsImported((s) => !s)
 
   const onSubmit = (data: ISowEntry) => {
     console.log(data)
@@ -48,7 +47,6 @@ export default () => {
     defaultValue: '',
     autoComplete: 'off',
     fullWidth: true,
-    disabled: isImported,
   }
 
   const datesControlProps = {
@@ -65,7 +63,27 @@ export default () => {
         <CardHeader title="New Sow Form" />
         <CardContent>
           <Grid container spacing={3}>
-            <Grid item sm={12} md={12}>
+            <Grid item xs={12}>
+              <Typography variant="h6">New Sow Info</Typography>
+              <Controller
+                name="sowID"
+                label="New Sow ID"
+                required
+                {...parentsControlProps}
+              />
+              <Controller
+                name="breed"
+                label="Breed"
+                required
+                {...parentsControlProps}
+              />
+              <Controller
+                name="nipplesCount"
+                label="Number of nipples"
+                type="number"
+                required
+                {...parentsControlProps}
+              />
               <FormControlLabel
                 control={
                   <Checkbox
@@ -76,16 +94,20 @@ export default () => {
                 label="Is Imported"
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={6}>
+            <Grid item xs={12} sm={6}>
               <Typography variant="h6">Parents</Typography>
               <Controller
                 name="fatherPigID"
                 label="Father Pig ID"
+                required={!isImported}
+                disabled={isImported}
                 {...parentsControlProps}
               />
               <Controller
                 name="motherPigID"
                 label="Mother Pig ID"
+                required={!isImported}
+                disabled={isImported}
                 {...parentsControlProps}
               />
             </Grid>
@@ -94,10 +116,12 @@ export default () => {
               <Controller
                 label="Birth Date"
                 name="birthDate"
+                required
                 {...datesControlProps}
               />
               <Controller
                 disabled={!isImported}
+                required={isImported}
                 label="Parchase Date"
                 name="purchaseDate"
                 {...datesControlProps}
