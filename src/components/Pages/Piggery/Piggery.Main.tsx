@@ -1,10 +1,11 @@
+import Container from '@material-ui/core/Container'
 import React from 'react'
-import Typography from '@material-ui/core/Typography'
+import SowEntry from './Forms/SowEntry'
 
 export default () => {
   return (
-    <div>
-      <Typography variant="h3">Piggery</Typography>
-    </div>
+    <Container maxWidth="lg">
+      <SowEntry />
+    </Container>
   )
 }
