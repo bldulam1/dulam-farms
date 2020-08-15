@@ -63,8 +63,7 @@ export default () => {
         <CardHeader title="New Sow Form" />
         <CardContent>
           <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Typography variant="h6">New Sow Info</Typography>
+            <Grid item xs={12} sm={6}>
               <Controller
                 name="sowID"
                 label="New Sow ID"
@@ -77,6 +76,8 @@ export default () => {
                 required
                 {...parentsControlProps}
               />
+            </Grid>
+            <Grid item xs={12} sm={6}>
               <Controller
                 name="nipplesCount"
                 label="Number of nipples"
