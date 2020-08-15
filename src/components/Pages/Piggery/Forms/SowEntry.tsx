@@ -11,6 +11,7 @@ import { FormControlLabel } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
+import { yyyyMMdd } from './Forms.util'
 
 interface ISowEntry {
   sowID: string
@@ -20,15 +21,6 @@ interface ISowEntry {
   fatherPigID: string
   motherPigID: string
   breed: string
-}
-
-const yyyyMMdd = (date: Date) => {
-  const m = date.getMonth()
-  const d = date.getDate()
-  const mm = m >= 10 ? m : '0' + m
-  const dd = d >= 10 ? d : '0' + m
-
-  return [date.getFullYear(), mm, dd].map((v) => String(v)).join('-')
 }
 
 export default () => {
@@ -63,37 +55,45 @@ export default () => {
         <CardHeader title="New Sow Form" />
         <CardContent>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={6}>
-              <Controller
-                name="sowID"
-                label="New Sow ID"
-                required
-                {...parentsControlProps}
-              />
-              <Controller
-                name="breed"
-                label="Breed"
-                required
-                {...parentsControlProps}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Controller
-                name="nipplesCount"
-                label="Number of nipples"
-                type="number"
-                required
-                {...parentsControlProps}
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={isImported}
-                    onClick={handleImportedToggle}
+            <Grid item xs={12}>
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isImported}
+                        onClick={handleImportedToggle}
+                      />
+                    }
+                    label="Is Imported"
                   />
-                }
-                label="Is Imported"
-              />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Controller
+                    name="sowID"
+                    label="New Sow ID"
+                    required
+                    {...parentsControlProps}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Controller
+                    name="breed"
+                    label="Breed"
+                    required
+                    {...parentsControlProps}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Controller
+                    name="nipplesCount"
+                    label="Number of nipples"
+                    type="number"
+                    required
+                    {...parentsControlProps}
+                  />
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item xs={12} sm={6}>
               <Typography variant="h6">Parents</Typography>
