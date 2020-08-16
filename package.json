@@ -21,7 +21,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start:lambda": "netlify-lambda serve functions",
+    "build": "yarn build:client && yarn build:lambda",
+    "build:client": "react-scripts build",
+    "build:lambda": "netlify-lambda build functions",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write .",
@@ -43,9 +46,11 @@
     ]
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.61",
     "bestzip": "^2.1.6",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
+    "netlify-lambda": "^2.0.1",
     "prettier": "2.0.5"
   },
   "lint-staged": {
