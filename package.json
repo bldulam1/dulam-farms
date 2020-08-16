@@ -21,10 +21,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start:lambda": "netlify-lambda serve functions",
+    "start:lambda": "netlify-lambda serve functions/js",
     "build": "yarn build:client && yarn build:lambda",
     "build:client": "react-scripts build",
     "build:lambda": "netlify-lambda build functions",
+    "build:lambda-compile": "tsc ./functions/ts/hello.ts",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write .",
