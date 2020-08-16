@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/dulam-farms
     docker:
-      - image: circleci/node:10.16.3
+      - image: circleci/node:10.21.0
     steps:
       - checkout
       - run:
@@ -19,8 +19,11 @@ jobs:
           paths:
             - ./node_modules
       - run:
-          name: build
-          command: yarn build
+          name: build client
+          command: yarn build:client
+      - run:
+          name: build lambda function
+          command: yarn build:lambda
 
       - store_artifacts:
           path: ./build
