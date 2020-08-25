@@ -17,7 +17,13 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn
-    - run: yarn build
+    - name: Install Dependencies
+      run: yarn
+    - name: Build client
+      run: yarn build:client
+      env:
+        CI: true
+    - name: Build lambda function
+      run: yarn build:lambda
       env:
         CI: true
