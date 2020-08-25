@@ -134,15 +134,10 @@ var __generator =
   }
 exports.__esModule = true
 exports.handler = function (event, _context, callback) {
-  var _a
   return __awaiter(this, void 0, void 0, function () {
-    return __generator(this, function (_b) {
+    return __generator(this, function (_a) {
       if (event.httpMethod === 'GET') {
-        if (
-          (_a = event.queryStringParameters) === null || _a === void 0
-            ? void 0
-            : _a.name
-        ) {
+        if (event.queryStringParameters.name) {
           callback(null, {
             statusCode: 200,
             headers: { 'Content-Type': 'application/json' },

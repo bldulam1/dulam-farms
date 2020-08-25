@@ -22,7 +22,18 @@ export default () => {
   const { control, handleSubmit } = useForm<IHogEntry>()
 
   const onSubmit = (data: IHogEntry) => {
-    console.log(data)
+    const url = '/.netlify/functions/test?name=Brendon&num=11'
+
+    fetch(url, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => console.log(res))
+    // .then(({ msg }) => console.log(msg))
+    // console.log(data)
   }
 
   const parentsControlProps = {
