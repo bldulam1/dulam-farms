@@ -7,11 +7,17 @@ function fibonacci(num) {
 }
 
 exports.handler = async (event, context) => {
-  console.log('Hello po')
-  const num = event.queryStringParameters.num || 10
+  let { num } = event.queryStringParameters
+  console.log(event.queryStringParameters)
+  if (num === undefined) {
+    return {
+      statusCode: 404,
+      body: `Error`,
+    }
+  }
 
   return {
     statusCode: 200,
-    body: 'Hello, World ' + fibonacci(Number(num)),
+    body: `Hello po ${fibonacci(Number(num))}`,
   }
 }
