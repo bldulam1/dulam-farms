@@ -9,6 +9,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import LandingAppBar from '../Pages/Landing/Landing.AppBar'
 import LandingPage from '../Pages/Landing/LandingPage'
 import PiggeryMain from '../Pages/Piggery/Piggery.Main'
+import { SnackbarProvider } from 'notistack'
 import { ThemeProvider } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
@@ -22,27 +23,29 @@ export default () => {
   ])
 
   return (
-    <ThemeProvider theme={theme}>
-      <AppContext.Provider value={{ setState, state }}>
-        <Router>
-          <CssBaseline />
-          <LandingAppBar />
-          <Switch>
-            <Route path="/piggery">
-              <PiggeryMain />
-            </Route>
-            <Route path="/broiler">
-              <BroilerMain />
-            </Route>
-            <Route path="/cattle">
-              <CattleMain />
-            </Route>
-            <Route path="/">
-              <LandingPage />
-            </Route>
-          </Switch>
-        </Router>
-      </AppContext.Provider>
-    </ThemeProvider>
+    <SnackbarProvider maxSnack={3}>
+      <ThemeProvider theme={theme}>
+        <AppContext.Provider value={{ setState, state }}>
+          <Router>
+            <CssBaseline />
+            <LandingAppBar />
+            <Switch>
+              <Route path="/piggery">
+                <PiggeryMain />
+              </Route>
+              <Route path="/broiler">
+                <BroilerMain />
+              </Route>
+              <Route path="/cattle">
+                <CattleMain />
+              </Route>
+              <Route path="/">
+                <LandingPage />
+              </Route>
+            </Switch>
+          </Router>
+        </AppContext.Provider>
+      </ThemeProvider>
+    </SnackbarProvider>
   )
 }
