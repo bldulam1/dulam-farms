@@ -9,10 +9,21 @@ export const yyyyMMdd = (date: Date) => {
   return [yyyy, mm, dd].map((v) => String(v)).join('-')
 }
 
-export const defaultHeaders = {
-  'Content-Type': 'application/json',
-  Accept: 'application/json',
-}
+export const createEntry = (
+  collection: string,
+  body: any,
+  handleServerResponse: (res: { insertedId: string }) => void
+) => {
+  const url = `/.netlify/functions/data-entry?collection=${collection}`
 
-export const getLambdaURL = (endpoint: string) =>
-  ['/.netlify/functions', endpoint].join('/')
+  fetch(url, {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify(body),
+  })
+    .then((res) => res.json())
+    .then(handleServerResponse)
+}
