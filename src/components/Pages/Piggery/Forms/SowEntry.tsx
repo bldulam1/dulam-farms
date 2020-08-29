@@ -26,23 +26,17 @@ export default () => {
   const { enqueueSnackbar } = useSnackbar()
 
   const onSubmit = (data: ISowEntry) => {
+    const collection = 'sow'
     setStatus('in progress')
-    const body = {
-      ...data,
-      birthDate: new Date(data.birthDate),
-      recordDate: new Date(),
-      isImported,
-    }
-    const collectionSingular = 'sow'
     createEntry(
-      `${collectionSingular}s`,
-      body,
-      handleServerResponse(
-        collectionSingular,
-        setStatus,
-        enqueueSnackbar,
-        reset
-      )
+      `${collection}s`,
+      {
+        ...data,
+        birthDate: new Date(data.birthDate),
+        recordDate: new Date(),
+        isImported,
+      },
+      handleServerResponse(collection, setStatus, enqueueSnackbar, reset)
     )
   }
 
