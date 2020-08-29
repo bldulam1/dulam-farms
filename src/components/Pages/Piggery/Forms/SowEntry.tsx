@@ -5,7 +5,6 @@ import {
   createEntry,
   datesControlProps,
   handleServerResponse,
-  yyyyMMdd,
 } from './Forms.util'
 
 import Card from '@material-ui/core/Card'
