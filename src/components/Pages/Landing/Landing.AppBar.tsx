@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useContext } from 'react'
+import React, { useContext } from 'react'
 
 import AppBar from '@material-ui/core/AppBar'
 import AppContext from '../../Main/App.Context'
