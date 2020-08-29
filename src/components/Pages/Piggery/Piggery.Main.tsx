@@ -1,15 +1,15 @@
-import BoarEntry from './Forms/BoarEntry'
 import Container from '@material-ui/core/Container'
-import HogEntry from './Forms/HogEntry'
+import FormEntryBoar from './Forms/FormEntry.Boar'
+import FormEntryHog from './Forms/FormEntry.Hog'
+import FormEntrySow from './Forms/FormEntry.Sow'
 import React from 'react'
-import SowEntry from './Forms/SowEntry'
 
 export default () => {
   return (
     <Container maxWidth="lg">
-      <SowEntry />
-      <HogEntry />
-      <BoarEntry />
+      <FormEntryBoar />
+      <FormEntryHog />
+      <FormEntrySow />
     </Container>
   )
 }
