@@ -1,14 +1,17 @@
 import { Controller, useForm } from 'react-hook-form'
 import { IHogEntry, TransactionStatus } from './Forms.Interfaces'
 import React, { useState } from 'react'
-import { createEntry, yyyyMMdd } from './Forms.util'
+import {
+  createEntry,
+  datesControlProps,
+  handleServerResponse,
+  yyyyMMdd,
+} from './Forms.util'
 
-import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardHeader from '@material-ui/core/CardHeader'
-import FormsStyles from './Forms.Styles'
+import FormsSubmit from './Forms.Submit'
 import Grid from '@material-ui/core/Grid'
 import MenuItem from '@material-ui/core/MenuItem'
 import ReactHookFormSelect from './ReactHookFormSelect'
@@ -21,18 +24,6 @@ export default () => {
 
   const [status, setStatus] = useState<TransactionStatus>()
   const { enqueueSnackbar } = useSnackbar()
-  const classes = FormsStyles()
-
-  const handleServerResponse = (res: { insertedId: string }) => {
-    const variant = res.insertedId ? 'success' : 'error'
-    const message = res.insertedId
-      ? `Created new hog entry: ${res.insertedId}`
-      : 'Failed to save hog entry'
-
-    setStatus(variant)
-    enqueueSnackbar(message, { variant })
-    reset()
-  }
 
   const onSubmit = (data: IHogEntry) => {
     setStatus('in progress')
@@ -41,7 +32,18 @@ export default () => {
       birthDate: new Date(data.birthDate),
       recordDate: new Date(),
     }
-    createEntry('hogs', body, handleServerResponse)
+
+    const collectionSingular = 'hog'
+    createEntry(
+      `${collectionSingular}s`,
+      body,
+      handleServerResponse(
+        collectionSingular,
+        setStatus,
+        enqueueSnackbar,
+        reset
+      )
+    )
   }
 
   const parentsControlProps = {
@@ -52,13 +54,7 @@ export default () => {
     fullWidth: true,
   }
 
-  const datesControlProps = {
-    defaultValue: yyyyMMdd(new Date()),
-    as: TextField,
-    control,
-    type: 'date',
-    fullWidth: true,
-  }
+  const _datesControlProps = datesControlProps(control)
 
   return (
     <Card>
@@ -117,7 +113,7 @@ export default () => {
                 label="Birth Date"
                 name="birthDate"
                 required
-                {...datesControlProps}
+                {..._datesControlProps}
               />
               <Controller
                 label="Record Date"
@@ -125,22 +121,12 @@ export default () => {
                 InputProps={{
                   readOnly: true,
                 }}
-                {...datesControlProps}
+                {..._datesControlProps}
               />
             </Grid>
           </Grid>
         </CardContent>
-        <CardActions className={classes.cardActions}>
-          <Button
-            type="submit"
-            variant="contained"
-            color="secondary"
-            size="small"
-            disabled={status === 'in progress'}
-          >
-            {status === 'in progress' ? 'Submitting' : 'Submit'}
-          </Button>
-        </CardActions>
+        <FormsSubmit status={status} />
       </form>
     </Card>
   )

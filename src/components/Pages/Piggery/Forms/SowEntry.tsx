@@ -1,16 +1,19 @@
 import { Controller, useForm } from 'react-hook-form'
 import { ISowEntry, TransactionStatus } from './Forms.Interfaces'
 import React, { useState } from 'react'
-import { createEntry, yyyyMMdd } from './Forms.util'
+import {
+  createEntry,
+  datesControlProps,
+  handleServerResponse,
+  yyyyMMdd,
+} from './Forms.util'
 
-import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardHeader from '@material-ui/core/CardHeader'
 import Checkbox from '@material-ui/core/Checkbox'
 import { FormControlLabel } from '@material-ui/core'
-import FormsStyles from './Forms.Styles'
+import FormsSubmit from './Forms.Submit'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
@@ -22,18 +25,6 @@ export default () => {
 
   const [status, setStatus] = useState<TransactionStatus>()
   const { enqueueSnackbar } = useSnackbar()
-  const classes = FormsStyles()
-
-  const handleServerResponse = (res: { insertedId: string }) => {
-    const variant = res.insertedId ? 'success' : 'error'
-    const message = res.insertedId
-      ? `Created new sow entry: ${res.insertedId}`
-      : 'Failed to save sow entry'
-
-    setStatus(variant)
-    enqueueSnackbar(message, { variant })
-    reset()
-  }
 
   const onSubmit = (data: ISowEntry) => {
     setStatus('in progress')
@@ -43,7 +34,17 @@ export default () => {
       recordDate: new Date(),
       isImported,
     }
-    createEntry('sows', body, handleServerResponse)
+    const collectionSingular = 'sow'
+    createEntry(
+      `${collectionSingular}s`,
+      body,
+      handleServerResponse(
+        collectionSingular,
+        setStatus,
+        enqueueSnackbar,
+        reset
+      )
+    )
   }
 
   const handleImportedToggle = () => setIsImported((s) => !s)
@@ -56,13 +57,7 @@ export default () => {
     fullWidth: true,
   }
 
-  const datesControlProps = {
-    defaultValue: yyyyMMdd(new Date()),
-    as: TextField,
-    control,
-    type: 'date',
-    fullWidth: true,
-  }
+  const _datesControlProps = datesControlProps(control)
 
   return (
     <Card>
@@ -133,29 +128,19 @@ export default () => {
                 label="Birth Date"
                 name="birthDate"
                 required
-                {...datesControlProps}
+                {..._datesControlProps}
               />
               <Controller
                 disabled={!isImported}
                 required={isImported}
                 label="Parchase Date"
                 name="purchaseDate"
-                {...datesControlProps}
+                {..._datesControlProps}
               />
             </Grid>
           </Grid>
         </CardContent>
-        <CardActions className={classes.cardActions}>
-          <Button
-            type="submit"
-            variant="contained"
-            color="secondary"
-            size="small"
-            disabled={status === 'in progress'}
-          >
-            {status === 'in progress' ? 'Submitting' : 'Submit'}
-          </Button>
-        </CardActions>
+        <FormsSubmit status={status} />
       </form>
     </Card>
   )
