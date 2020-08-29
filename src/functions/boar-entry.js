@@ -1,26 +1,12 @@
+const { errorResponse, successResponse } = require('../utils/lambda.utils')
 const { MongoClient } = require('mongodb')
 
-const { DB_URL } = process.env
-const DB_NAME = `farm-management${'development' ? '-dev' : ''}`
-
-const DB_COLLECTION = 'boars'
-
-function errorResponse(callback, err) {
-  console.error(err)
-  callback(null, {
-    statusCode: 500,
-    body: JSON.stringify({ error: err }),
-  })
-}
-
-function successResponse(callback, res) {
-  callback(null, {
-    statusCode: 200,
-    body: JSON.stringify(res),
-  })
-}
-
 exports.handler = function (event, context, callback) {
+  const { DB_URL } = process.env
+  const DB_NAME = `farm-management${'development' ? '-dev' : ''}`
+
+  const DB_COLLECTION = 'boars'
+
   if (!DB_URL) return errorResponse(callback, 'Database URL is empty')
 
   MongoClient.connect(`${DB_URL}/${DB_NAME}`, (err, connection) => {
