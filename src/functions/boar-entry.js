@@ -1,10 +1,8 @@
 const { MongoClient } = require('mongodb')
 
 const { DB_URL } = process.env
-const DB_NAME = [
-  'farm-management',
-  process.env.NODE_ENV === 'development' ? 'dev' : '',
-].join('-')
+const DB_NAME = `farm-management${'development' ? '-dev' : ''}`
+
 const DB_COLLECTION = 'boars'
 
 function errorResponse(callback, err) {
