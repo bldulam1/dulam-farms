@@ -7,3 +7,13 @@ export interface IHogEntry {
   recordDate: string
   breed: string
 }
+
+export interface ISowEntry {
+  sowID: string
+  birthDate: string
+  purchaseDate: string
+  nipplesCount: number
+  fatherPigID?: string
+  motherPigID?: string
+  breed: string
+}

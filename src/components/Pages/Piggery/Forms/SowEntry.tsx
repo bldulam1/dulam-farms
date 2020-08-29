@@ -1,5 +1,7 @@
 import { Controller, useForm } from 'react-hook-form'
+import { ISowEntry, TransactionStatus } from './Forms.Interfaces'
 import React, { useState } from 'react'
+import { createEntry, yyyyMMdd } from './Forms.util'
 
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
@@ -8,29 +10,42 @@ import CardContent from '@material-ui/core/CardContent'
 import CardHeader from '@material-ui/core/CardHeader'
 import Checkbox from '@material-ui/core/Checkbox'
 import { FormControlLabel } from '@material-ui/core'
+import FormsStyles from './Forms.Styles'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
-import { yyyyMMdd } from './Forms.util'
-
-interface ISowEntry {
-  sowID: string
-  birthDate: string
-  purchaseDate: string
-  nipplesCount: number
-  fatherPigID: string
-  motherPigID: string
-  breed: string
-}
+import { useSnackbar } from 'notistack'
 
 export default () => {
-  const { control, handleSubmit } = useForm<ISowEntry>()
+  const { control, handleSubmit, reset } = useForm<ISowEntry>()
   const [isImported, setIsImported] = useState(false)
+
+  const [status, setStatus] = useState<TransactionStatus>()
+  const { enqueueSnackbar } = useSnackbar()
+  const classes = FormsStyles()
 
   const handleImportedToggle = () => setIsImported((s) => !s)
 
+  const handleServerResponse = (res: { insertedId: string }) => {
+    const variant = res.insertedId ? 'success' : 'error'
+    const message = res.insertedId
+      ? `Created new sow entry: ${res.insertedId}`
+      : 'Failed to save sow entry'
+
+    setStatus(variant)
+    enqueueSnackbar(message, { variant })
+    reset()
+  }
+
   const onSubmit = (data: ISowEntry) => {
-    console.log(data)
+    setStatus('in progress')
+    const body = {
+      ...data,
+      birthDate: new Date(data.birthDate),
+      recordDate: new Date(),
+      isImported,
+    }
+    createEntry('sows', body, handleServerResponse)
   }
 
   const parentsControlProps = {
@@ -130,14 +145,15 @@ export default () => {
             </Grid>
           </Grid>
         </CardContent>
-        <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <CardActions className={classes.cardActions}>
           <Button
             type="submit"
             variant="contained"
             color="secondary"
             size="small"
+            disabled={status === 'in progress'}
           >
-            Submit
+            {status === 'in progress' ? 'Submitting' : 'Submit'}
           </Button>
         </CardActions>
       </form>
