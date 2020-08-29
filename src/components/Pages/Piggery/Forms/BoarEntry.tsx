@@ -1,66 +1,55 @@
 import { Controller, useForm } from 'react-hook-form'
-import { defaultHeaders, getLambdaURL, yyyyMMdd } from './Forms.util'
+import { IHogEntry, TransactionStatus } from './Forms.Interfaces'
+import { createEntry, yyyyMMdd } from './Forms.util'
 
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardHeader from '@material-ui/core/CardHeader'
+import FormsStyles from './Forms.Styles'
 import Grid from '@material-ui/core/Grid'
 import React from 'react'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import { useSnackbar } from 'notistack'
 
-interface IHogEntry {
-  _id?: string
-  boarId: string
-  birthDate: string
-  recordDate: string
-  breed: string
-}
-
-type TransactionStatus = 'success' | 'error' | 'in progress' | null
-
 export default () => {
   const { control, handleSubmit, reset } = useForm<IHogEntry>()
   const [status, setStatus] = React.useState<TransactionStatus>()
   const { enqueueSnackbar } = useSnackbar()
+
+  const classes = FormsStyles()
+
+  const handleServerResponse = (res: { insertedId: string }) => {
+    const variant = res.insertedId ? 'success' : 'error'
+    const message = res.insertedId
+      ? `Created new boar entry: ${res.insertedId}`
+      : 'Failed to save boar entry'
+
+    setStatus(variant)
+    enqueueSnackbar(message, { variant })
+    reset()
+  }
+
   const onSubmit = (data: IHogEntry) => {
     setStatus('in progress')
-
     const body = {
       ...data,
       birthDate: new Date(data.birthDate),
       recordDate: new Date(),
     }
-
-    const url = getLambdaURL('boar-entry')
-    fetch(url, {
-      method: 'post',
-      headers: defaultHeaders,
-      body: JSON.stringify(body),
-    })
-      .then((res) => res.json())
-      .then((res: { insertedId: string }) => {
-        const variant = res.insertedId ? 'success' : 'error'
-        const message = res.insertedId
-          ? `Created new boar entry: ${res.insertedId}`
-          : 'Failed to save boar entry'
-
-        setStatus(variant)
-        enqueueSnackbar(message, { variant })
-        reset()
-      })
+    createEntry('boars', body, handleServerResponse)
   }
 
-  const parentsControlProps = {
+  const basicInfoProps = {
     as: TextField,
     control,
     defaultValue: '',
     autoComplete: 'off',
     fullWidth: true,
     disabled: status === 'in progress',
+    required: true,
   }
 
   const datesControlProps = {
@@ -80,18 +69,8 @@ export default () => {
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <Typography variant="h6">Basic Info</Typography>
-              <Controller
-                name="boarId"
-                label="Boar ID"
-                required
-                {...parentsControlProps}
-              />
-              <Controller
-                name="breed"
-                label="Breed"
-                required
-                {...parentsControlProps}
-              />
+              <Controller name="boarId" label="Boar ID" {...basicInfoProps} />
+              <Controller name="breed" label="Breed" {...basicInfoProps} />
             </Grid>
 
             <Grid item xs={12} sm={6}>
@@ -113,7 +92,7 @@ export default () => {
             </Grid>
           </Grid>
         </CardContent>
-        <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <CardActions className={classes.cardActions}>
           <Button
             type="submit"
             variant="contained"
