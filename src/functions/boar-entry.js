@@ -22,9 +22,9 @@ function successResponse(callback, res) {
   })
 }
 
-console.log(DB_URL)
-
 exports.handler = function (event, context, callback) {
+  if (!DB_URL) return errorResponse(callback, 'Database URL is empty')
+
   MongoClient.connect(`${DB_URL}/${DB_NAME}`, (err, connection) => {
     if (err) return errorResponse(callback, err)
 
