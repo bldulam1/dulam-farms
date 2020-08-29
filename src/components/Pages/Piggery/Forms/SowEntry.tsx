@@ -24,8 +24,6 @@ export default () => {
   const { enqueueSnackbar } = useSnackbar()
   const classes = FormsStyles()
 
-  const handleImportedToggle = () => setIsImported((s) => !s)
-
   const handleServerResponse = (res: { insertedId: string }) => {
     const variant = res.insertedId ? 'success' : 'error'
     const message = res.insertedId
@@ -47,6 +45,8 @@ export default () => {
     }
     createEntry('sows', body, handleServerResponse)
   }
+
+  const handleImportedToggle = () => setIsImported((s) => !s)
 
   const parentsControlProps = {
     as: TextField,
