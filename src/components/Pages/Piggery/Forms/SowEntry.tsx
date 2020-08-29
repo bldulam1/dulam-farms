@@ -42,6 +42,7 @@ export default () => {
 
   const handleImportedToggle = () => setIsImported((s) => !s)
 
+  const _datesControlProps = datesControlProps(control)
   const parentsControlProps = {
     as: TextField,
     control,
@@ -49,8 +50,6 @@ export default () => {
     autoComplete: 'off',
     fullWidth: true,
   }
-
-  const _datesControlProps = datesControlProps(control)
 
   return (
     <Card>

@@ -35,6 +35,7 @@ export default () => {
     )
   }
 
+  const _datesControlProps = datesControlProps(control)
   const basicInfoProps = {
     as: TextField,
     control,
@@ -44,8 +45,6 @@ export default () => {
     disabled: status === 'in progress',
     required: true,
   }
-
-  const _datesControlProps = datesControlProps(control)
 
   return (
     <Card>
