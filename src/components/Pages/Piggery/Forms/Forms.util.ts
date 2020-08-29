@@ -8,3 +8,11 @@ export const yyyyMMdd = (date: Date) => {
 
   return [yyyy, mm, dd].map((v) => String(v)).join('-')
 }
+
+export const defaultHeaders = {
+  'Content-Type': 'application/json',
+  Accept: 'application/json',
+}
+
+export const getLambdaURL = (endpoint: string) =>
+  ['/.netlify/functions', endpoint].join('/')

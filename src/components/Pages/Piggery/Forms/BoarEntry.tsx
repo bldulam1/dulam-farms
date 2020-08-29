@@ -1,4 +1,5 @@
 import { Controller, useForm } from 'react-hook-form'
+import { defaultHeaders, getLambdaURL, yyyyMMdd } from './Forms.util'
 
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
@@ -9,37 +10,48 @@ import Grid from '@material-ui/core/Grid'
 import React from 'react'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
-import { yyyyMMdd } from './Forms.util'
+import { useSnackbar } from 'notistack'
 
 interface IHogEntry {
+  _id?: string
   boarId: string
   birthDate: string
   recordDate: string
   breed: string
 }
 
-export default () => {
-  const { control, handleSubmit } = useForm<IHogEntry>()
+type TransactionStatus = 'success' | 'error' | 'in progress' | null
 
+export default () => {
+  const { control, handleSubmit, reset } = useForm<IHogEntry>()
+  const [status, setStatus] = React.useState<TransactionStatus>()
+  const { enqueueSnackbar } = useSnackbar()
   const onSubmit = (data: IHogEntry) => {
-    const url = '/.netlify/functions/boar-entry'
+    setStatus('in progress')
+
     const body = {
       ...data,
       birthDate: new Date(data.birthDate),
       recordDate: new Date(),
     }
-    const headers = {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    }
 
+    const url = getLambdaURL('boar-entry')
     fetch(url, {
       method: 'post',
-      headers,
+      headers: defaultHeaders,
       body: JSON.stringify(body),
     })
       .then((res) => res.json())
-      .then((res) => console.log(res))
+      .then((res: { insertedId: string }) => {
+        const variant = res.insertedId ? 'success' : 'error'
+        const message = res.insertedId
+          ? `Created new boar entry: ${res.insertedId}`
+          : 'Failed to save boar entry'
+
+        setStatus(variant)
+        enqueueSnackbar(message, { variant })
+        reset()
+      })
   }
 
   const parentsControlProps = {
@@ -48,10 +60,12 @@ export default () => {
     defaultValue: '',
     autoComplete: 'off',
     fullWidth: true,
+    disabled: status === 'in progress',
   }
 
   const datesControlProps = {
     defaultValue: yyyyMMdd(new Date()),
+    disabled: status === 'in progress',
     as: TextField,
     control,
     type: 'date',
@@ -105,8 +119,9 @@ export default () => {
             variant="contained"
             color="secondary"
             size="small"
+            disabled={status === 'in progress'}
           >
-            Submit
+            {status === 'in progress' ? 'Submitting' : 'Submit'}
           </Button>
         </CardActions>
       </form>
