@@ -22,18 +22,24 @@ export default () => {
   const { control, handleSubmit } = useForm<IHogEntry>()
 
   const onSubmit = (data: IHogEntry) => {
-    const url = '/.netlify/functions/test?name=Brendon&num=11'
+    const url = '/.netlify/functions/boar-entry'
+    const body = {
+      ...data,
+      birthDate: new Date(data.birthDate),
+      recordDate: new Date(),
+    }
+    const headers = {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    }
 
     fetch(url, {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
+      method: 'post',
+      headers,
+      body: JSON.stringify(body),
     })
       .then((res) => res.json())
       .then((res) => console.log(res))
-    // .then(({ msg }) => console.log(msg))
-    // console.log(data)
   }
 
   const parentsControlProps = {
