@@ -3,3 +3,5 @@
   functions = ".lambda" # netlify dev uses this to know where to scaffold and serve your functions
   publish = "build"
 
+[build.environment]
+  NODE_ENV="production"
