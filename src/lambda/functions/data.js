@@ -13,6 +13,7 @@ exports.handler = (event, context, callback) => {
     return errorResponse(callback, 'Database collection is required')
   }
   const dbName = 'development' ? 'farm-management-dev' : 'farm-management-prod'
+  console.log(dbName)
 
   switch (event.httpMethod) {
     case 'POST':
