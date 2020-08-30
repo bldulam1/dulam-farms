@@ -1,11 +1,40 @@
 export type TransactionStatus = 'success' | 'error' | 'in progress' | null
 
-export interface IHogEntry {
+export interface IBoarEntry {
   _id?: string
   boarId: string
   birthDate: string
   recordDate: string
   breed: string
+}
+interface TableEntry {
+  headerName: string
+  bodyDisplay: (value: any) => string
+}
+
+export const boarHeaders: {
+  [key: string]: TableEntry
+} = {
+  boarId: {
+    headerName: 'Boar ID',
+    bodyDisplay: (value: string) => value,
+  },
+  birthDate: {
+    headerName: 'Birth Date',
+    bodyDisplay: (value: Date) => new Date(value).toLocaleDateString(),
+  },
+  recordDate: {
+    headerName: 'Date Recorded',
+    bodyDisplay: (value: Date) => {
+      value = new Date(value)
+      const _date = [value.toLocaleDateString(), value.toLocaleTimeString()]
+      return _date.join(' ')
+    },
+  },
+  breed: {
+    headerName: 'Breed',
+    bodyDisplay: (value: string) => value,
+  },
 }
 
 export interface ISowEntry {

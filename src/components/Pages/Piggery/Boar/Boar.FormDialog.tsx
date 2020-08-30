@@ -1,27 +1,34 @@
 import { Controller, useForm } from 'react-hook-form'
-import { IHogEntry, TransactionStatus } from './Forms.Interfaces'
+import { IBoarEntry, TransactionStatus } from '../Forms/Forms.Interfaces'
 import {
   createEntry,
   datesControlProps,
   handleServerResponse,
-} from './Forms.util'
+} from '../Forms/Forms.util'
 
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import CardHeader from '@material-ui/core/CardHeader'
-import FormsSubmit from './Forms.Submit'
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
 import Grid from '@material-ui/core/Grid'
 import React from 'react'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import { useSnackbar } from 'notistack'
 
-export default () => {
-  const { control, handleSubmit, reset } = useForm<IHogEntry>()
-  const [status, setStatus] = React.useState<TransactionStatus>()
+export default (params: {
+  open: boolean
+  onClose: () => void
+  status: TransactionStatus
+  setStatus: React.Dispatch<React.SetStateAction<TransactionStatus>>
+}) => {
+  const { control, handleSubmit, reset } = useForm<IBoarEntry>()
+  const { status, setStatus } = params
+  // const [status, setStatus] = React.useState<TransactionStatus>()
   const { enqueueSnackbar } = useSnackbar()
 
-  const onSubmit = (data: IHogEntry) => {
+  const onSubmit = (data: IBoarEntry) => {
     const collection = 'boar'
     setStatus('in progress')
     createEntry(
@@ -47,10 +54,10 @@ export default () => {
   }
 
   return (
-    <Card>
+    <Dialog {...params}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <CardHeader title="New Boar Form" />
-        <CardContent>
+        <DialogTitle>New Boar Form</DialogTitle>
+        <DialogContent>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <Typography variant="h6">Basic Info</Typography>
@@ -76,9 +83,19 @@ export default () => {
               />
             </Grid>
           </Grid>
-        </CardContent>
-        <FormsSubmit status={status} />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            type="submit"
+            variant="contained"
+            color="secondary"
+            size="small"
+            disabled={status === 'in progress'}
+          >
+            {status === 'in progress' ? 'Submitting' : 'Submit'}
+          </Button>
+        </DialogActions>
       </form>
-    </Card>
+    </Dialog>
   )
 }
