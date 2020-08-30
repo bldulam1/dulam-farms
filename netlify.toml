@@ -1,5 +1,6 @@
 [build]
   NODE_ENV = "production"
+  NODE_VERSION = "12.18.3"
   command = "yarn build"
-  functions = ".lambda" # netlify dev uses this to know where to scaffold and serve your functions
-  publish = "build"
+  functions = ".lambda/" # netlify dev uses this to know where to scaffold and serve your functions
+  publish = "build/"
