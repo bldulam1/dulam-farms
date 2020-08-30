@@ -12,7 +12,10 @@ exports.handler = (event, context, callback) => {
   if (!dbCollection) {
     return errorResponse(callback, 'Database collection is required')
   }
-  const dbName = 'development' ? 'farm-management-dev' : 'farm-management-prod'
+  const dbName =
+    process.env.NODE_ENV === 'development'
+      ? 'farm-management-dev'
+      : 'farm-management-prod'
   console.log(dbName)
 
   switch (event.httpMethod) {
