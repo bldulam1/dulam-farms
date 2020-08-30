@@ -29,7 +29,6 @@ export function createDBEntry({ dbURL, callback, data, dbName, dbCollection }) {
         if (err) return errorResponse(callback, err)
 
         connection.close()
-        console.log('Saved boar entry')
         successResponse(callback, result)
       })
   })
