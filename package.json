@@ -22,6 +22,7 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
+    "start": "netlify dev",
     "start:client": "react-scripts start",
     "start:lambda": "netlify-lambda serve ./src/lambda/functions",
     "build": "yarn build:client && yarn build:lambda",

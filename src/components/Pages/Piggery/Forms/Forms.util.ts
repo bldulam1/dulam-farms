@@ -20,7 +20,7 @@ export const createEntry = (
   body: any,
   handleServerResponse: (res: { insertedId: string }) => void
 ) => {
-  const url = `/.netlify/functions/data-entry?collection=${collection}`
+  const url = `/.netlify/functions/data?collection=${collection}`
 
   fetch(url, {
     method: 'post',
@@ -46,6 +46,8 @@ export const handleServerResponse = (
   reset: (values?: any, omitResetState?: any) => void
 ) => {
   return (res: { insertedId: string }) => {
+    console.log(res)
+
     const variant = res.insertedId ? 'success' : 'error'
     const message = res.insertedId
       ? `Created new ${collection} entry: ${res.insertedId}`

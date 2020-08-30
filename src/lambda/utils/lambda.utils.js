@@ -1,5 +1,7 @@
 const { MongoClient } = require('mongodb')
 
+const mongoOptions = { useUnifiedTopology: true }
+
 export function errorResponse(callback, err) {
   console.error(err)
   callback(null, {
@@ -15,18 +17,35 @@ export function successResponse(callback, res) {
   })
 }
 
-export function createDBEntry(url, callback, data, dbName, collectionName) {
-  MongoClient.connect(url, (err, connection) => {
+export function createDBEntry({ dbURL, callback, data, dbName, dbCollection }) {
+  const url = `${dbURL}/${dbName}`
+  MongoClient.connect(url, mongoOptions, (err, connection) => {
     if (err) return errorResponse(callback, err)
 
     connection
       .db(dbName)
-      .collection(collectionName)
+      .collection(dbCollection)
       .insertOne(JSON.parse(data), (err, result) => {
         if (err) return errorResponse(callback, err)
 
         connection.close()
         console.log('Saved boar entry')
+        successResponse(callback, result)
+      })
+  })
+}
+
+export function fetchDBEntry({ dbURL, dbName, dbCollection, callback }) {
+  const url = `${dbURL}/${dbName}`
+  MongoClient.connect(url, mongoOptions, (err, connection) => {
+    if (err) return errorResponse(callback, err)
+
+    connection
+      .db(dbName)
+      .collection(dbCollection)
+      .find({})
+      .toArray((err, result) => {
+        if (err) return errorResponse(callback, err)
         successResponse(callback, result)
       })
   })
