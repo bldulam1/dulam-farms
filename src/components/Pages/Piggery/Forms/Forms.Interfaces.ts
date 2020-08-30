@@ -7,7 +7,14 @@ export interface IBoarEntry {
   recordDate: string
   breed: string
 }
-export const boarHeaders = {
+interface TableEntry {
+  headerName: string
+  bodyDisplay: (value: any) => string
+}
+
+export const boarHeaders: {
+  [key: string]: TableEntry
+} = {
   boarId: {
     headerName: 'Boar ID',
     bodyDisplay: (value: string) => value,

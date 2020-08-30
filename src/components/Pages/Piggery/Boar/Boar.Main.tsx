@@ -57,7 +57,7 @@ export default () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows.map((row: { [key: string]: any }) => (
             <TableRow key={row._id}>
               {Object.keys(boarHeaders).map((header, index) => (
                 <TableCell key={`body-id-${index}-${row._id}`} align="center">
