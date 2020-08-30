@@ -6,4 +6,4 @@ package.json
 package-lock.json
 public
 
-lambda
+.lambda

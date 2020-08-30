@@ -1,48 +1,49 @@
 import { Controller, useForm } from 'react-hook-form'
+import { IHogEntry, TransactionStatus } from './Forms.Interfaces'
+import React, { useState } from 'react'
+import {
+  createEntry,
+  datesControlProps,
+  handleServerResponse,
+} from './Forms.util'
 
-import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardHeader from '@material-ui/core/CardHeader'
+import FormsSubmit from './Forms.Submit'
 import Grid from '@material-ui/core/Grid'
 import MenuItem from '@material-ui/core/MenuItem'
-import React from 'react'
 import ReactHookFormSelect from './ReactHookFormSelect'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
-import { yyyyMMdd } from './Forms.util'
-
-interface IHogEntry {
-  hogId: string
-  birthDate: string
-  recordDate: string
-  fatherPigID: string
-  motherPigID: string
-  sex: 'Male' | 'Female'
-  nipplesCount: number
-}
+import { useSnackbar } from 'notistack'
 
 export default () => {
-  const { control, handleSubmit } = useForm<IHogEntry>()
+  const { control, handleSubmit, reset } = useForm<IHogEntry>()
+
+  const [status, setStatus] = useState<TransactionStatus>()
+  const { enqueueSnackbar } = useSnackbar()
 
   const onSubmit = (data: IHogEntry) => {
-    console.log(data)
+    const collection = 'hog'
+    setStatus('in progress')
+    createEntry(
+      `${collection}s`,
+      {
+        ...data,
+        birthDate: new Date(data.birthDate),
+        recordDate: new Date(),
+      },
+      handleServerResponse(collection, setStatus, enqueueSnackbar, reset)
+    )
   }
 
+  const _datesControlProps = datesControlProps(control)
   const parentsControlProps = {
     as: TextField,
     control,
     defaultValue: '',
     autoComplete: 'off',
-    fullWidth: true,
-  }
-
-  const datesControlProps = {
-    defaultValue: yyyyMMdd(new Date()),
-    as: TextField,
-    control,
-    type: 'date',
     fullWidth: true,
   }
 
@@ -103,7 +104,7 @@ export default () => {
                 label="Birth Date"
                 name="birthDate"
                 required
-                {...datesControlProps}
+                {..._datesControlProps}
               />
               <Controller
                 label="Record Date"
@@ -111,21 +112,12 @@ export default () => {
                 InputProps={{
                   readOnly: true,
                 }}
-                {...datesControlProps}
+                {..._datesControlProps}
               />
             </Grid>
           </Grid>
         </CardContent>
-        <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button
-            type="submit"
-            variant="contained"
-            color="secondary"
-            size="small"
-          >
-            Submit
-          </Button>
-        </CardActions>
+        <FormsSubmit status={status} />
       </form>
     </Card>
   )

@@ -24,4 +24,5 @@ yarn-error.log*
 
 bundle.zip
 
-/lambda
+# built lambda function
+/.lambda

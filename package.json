@@ -19,9 +19,11 @@
     "react-hook-form": "^6.3.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "saslprep": "^1.0.3",
     "typescript": "~3.7.2"
   },
   "scripts": {
+    "start": "netlify dev",
     "start:client": "react-scripts start",
     "start:lambda": "netlify-lambda serve ./src/lambda/functions",
     "build": "yarn build:client && yarn build:lambda",

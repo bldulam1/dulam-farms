@@ -1,11 +1,13 @@
-import React, { ChangeEvent, useContext } from 'react'
+import React, { useContext } from 'react'
 
 import AppBar from '@material-ui/core/AppBar'
 import AppContext from '../../Main/App.Context'
+import Brightness7Icon from '@material-ui/icons/Brightness7'
+import BrightnessLowIcon from '@material-ui/icons/BrightnessLow'
+import IconButton from '@material-ui/core/IconButton'
 import LandingStyles from './Landing.Styles'
 import Link from '@material-ui/core/Link'
 import { Link as RouterLink } from 'react-router-dom'
-import Switch from '@material-ui/core/Switch'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 
@@ -15,8 +17,8 @@ export default () => {
   const appContext = useContext(AppContext)
   const { isDarkMode } = appContext.state
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>, checked: boolean) => {
-    appContext.setState({ isDarkMode: checked })
+  const toggleDarkMode = () => {
+    appContext.setState({ isDarkMode: !isDarkMode })
   }
 
   return (
@@ -30,7 +32,12 @@ export default () => {
           </Link>
         </div>
         <div>
-          <Switch value={isDarkMode} onChange={handleChange} />
+          <IconButton
+            onClick={toggleDarkMode}
+            className={classes.brightnessIcon}
+          >
+            {isDarkMode ? <BrightnessLowIcon /> : <Brightness7Icon />}
+          </IconButton>
         </div>
       </Toolbar>
     </AppBar>

@@ -1,15 +1,30 @@
-import BoarEntry from './Forms/BoarEntry'
 import Container from '@material-ui/core/Container'
-import HogEntry from './Forms/HogEntry'
+import FormEntryBoar from './Forms/FormEntry.Boar'
 import React from 'react'
-import SowEntry from './Forms/SowEntry'
 
 export default () => {
+  React.useEffect(() => {
+    const query = {
+      a: 'asdf',
+    }
+    fetch(
+      `/.netlify/functions/data?collection=sows&query=${JSON.stringify(query)}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((res) => console.log(res))
+  }, [])
+
   return (
     <Container maxWidth="lg">
-      <SowEntry />
-      <HogEntry />
-      <BoarEntry />
+      <FormEntryBoar />
+      {/* <FormEntryHog />
+      <FormEntrySow /> */}
     </Container>
   )
 }

@@ -41,4 +41,7 @@ export default makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
   },
+  brightnessIcon: {
+    color: theme.palette.common.white,
+  },
 }))
