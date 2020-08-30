@@ -36,9 +36,7 @@ export const createEntry = (
 
 export const handleServerResponse = (
   collection: string,
-  setStatus: (
-    value: React.SetStateAction<TransactionStatus | undefined>
-  ) => void,
+  setStatus: (value: React.SetStateAction<TransactionStatus>) => void,
   enqueueSnackbar: (
     message: React.ReactNode,
     options: OptionsObject
@@ -66,3 +64,21 @@ export const datesControlProps = (control: Control<any>) => ({
   type: 'date',
   fullWidth: true,
 })
+
+export const fetchData = (
+  url: string,
+  setRows: React.Dispatch<React.SetStateAction<any>>
+) => {
+  fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  })
+    .then((res) => res.json())
+    .then((res: []) => {
+      if (res && res.length) {
+        setRows(res)
+      }
+    })
+}

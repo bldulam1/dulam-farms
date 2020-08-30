@@ -22,7 +22,7 @@ export default () => {
   const { control, handleSubmit, reset } = useForm<ISowEntry>()
   const [isImported, setIsImported] = useState(false)
 
-  const [status, setStatus] = useState<TransactionStatus>()
+  const [status, setStatus] = useState<TransactionStatus>(null)
   const { enqueueSnackbar } = useSnackbar()
 
   const onSubmit = (data: ISowEntry) => {

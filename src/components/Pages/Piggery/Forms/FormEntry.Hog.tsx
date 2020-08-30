@@ -21,7 +21,7 @@ import { useSnackbar } from 'notistack'
 export default () => {
   const { control, handleSubmit, reset } = useForm<IHogEntry>()
 
-  const [status, setStatus] = useState<TransactionStatus>()
+  const [status, setStatus] = useState<TransactionStatus>(null)
   const { enqueueSnackbar } = useSnackbar()
 
   const onSubmit = (data: IHogEntry) => {
