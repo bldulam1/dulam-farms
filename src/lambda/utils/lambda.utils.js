@@ -44,8 +44,11 @@ export function fetchDBEntry({ dbURL, dbName, dbCollection, callback }) {
       .collection(dbCollection)
       .find({})
       .toArray((err, result) => {
-        if (err) return errorResponse(callback, err)
+        if (err && !result && !result.length) {
+          return errorResponse(callback, err)
+        }
         successResponse(callback, result)
+        console.log(result)
       })
   })
 }
