@@ -33,9 +33,7 @@ exports.handler = (event, context, callback) => {
         options = JSON.parse(event.queryStringParameters.options)
       }
 
-      console.log(options)
-
-      return fetchDBEntry({ dbURL, dbName, dbCollection, callback })
+      return fetchDBEntry({ dbURL, dbName, dbCollection, callback, options })
 
     default:
       return errorResponse(callback, 'Unknown request')
