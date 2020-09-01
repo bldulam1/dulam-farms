@@ -8,11 +8,16 @@ export const yyyyMMdd = (date: Date) => {
   const m = date.getMonth()
   const d = date.getDate()
   const mm = m >= 10 ? m : '0' + m
-  const dd = d >= 10 ? d : '0' + m
+  const dd = d >= 10 ? d : '0' + d
 
   const yyyy = date.getFullYear()
 
   return [yyyy, mm, dd].map((v) => String(v)).join('-')
+}
+
+const headers = {
+  'Content-Type': 'application/json',
+  Accept: 'application/json',
 }
 
 export const createEntry = (
@@ -24,10 +29,7 @@ export const createEntry = (
 
   fetch(url, {
     method: 'post',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
+    headers,
     body: JSON.stringify(body),
   })
     .then((res) => res.json())
@@ -65,13 +67,13 @@ export const datesControlProps = (control: Control<any>) => ({
   fullWidth: true,
 })
 
-export const fetchData = (url: string): Promise<[]> => {
-  return fetch(url, {
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-  })
+export interface FetchResult {
+  total: number
+  subset: []
+}
+
+export const fetchData = (url: string): Promise<FetchResult> => {
+  return fetch(url, { headers })
     .then((res) => res.json())
-    .then((res: []) => res)
+    .then((res: FetchResult) => res)
 }

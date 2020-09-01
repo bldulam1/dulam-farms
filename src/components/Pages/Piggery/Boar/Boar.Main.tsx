@@ -11,7 +11,6 @@ import { createResource } from './Boar.utils'
 const resource = createResource()
 
 export default () => {
-  // const [rows, setRows] = React.useState<IBoarEntry[]>([])
   const [open, setOpen] = useState(false)
   const [status, setStatus] = useState<TransactionStatus>(null)
 

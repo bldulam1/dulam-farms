@@ -1,8 +1,8 @@
-import { fetchData } from '../Forms/Forms.util'
+import { FetchResult, fetchData } from '../Forms/Forms.util'
 
 export const wrapPromise = (promise: Promise<any>) => {
   let status = 'pending'
-  let result: any
+  let result: FetchResult | any
 
   let suspender = promise.then(
     (res) => {
@@ -30,6 +30,11 @@ export const wrapPromise = (promise: Promise<any>) => {
   }
 }
 
+export const defaultSearchOptions = {
+  sort: {},
+  page: 0,
+  limit: 5,
+}
 export interface SearchOption {
   limit: number
   skip: number
@@ -38,7 +43,11 @@ export interface SearchOption {
 export const createResource = () => {
   return {
     boars: wrapPromise(
-      fetchData(`/.netlify/functions/data?collection=boars&query=${{}}`)
+      fetchData(
+        `/.netlify/functions/data?collection=boars&options=${JSON.stringify(
+          defaultSearchOptions
+        )}`
+      )
     ),
   }
 }
