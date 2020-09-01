@@ -16,7 +16,6 @@ exports.handler = (event, context, callback) => {
     process.env.NODE_ENV === 'development'
       ? 'farm-management-dev'
       : 'farm-management-prod'
-  console.log(dbName)
 
   switch (event.httpMethod) {
     case 'POST':
@@ -29,11 +28,12 @@ exports.handler = (event, context, callback) => {
         data,
       })
     case 'GET':
-      const query = event.queryStringParameters.query
-        ? JSON.parse(event.queryStringParameters.query)
-        : {}
+      let options = {}
+      if (event.queryStringParameters.options) {
+        options = JSON.parse(event.queryStringParameters.options)
+      }
 
-      console.log(query)
+      console.log(options)
 
       return fetchDBEntry({ dbURL, dbName, dbCollection, callback })
 

@@ -29,7 +29,8 @@ export function createDBEntry({ dbURL, callback, data, dbName, dbCollection }) {
         if (err) return errorResponse(callback, err)
 
         connection.close()
-        successResponse(callback, result)
+        const { insertedId, insertedCount } = result
+        successResponse(callback, { insertedId, insertedCount })
       })
   })
 }
