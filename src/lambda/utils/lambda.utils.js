@@ -48,7 +48,7 @@ export function fetchDBEntry({
 
     const collection = connection.db(dbName).collection(dbCollection)
 
-    const countQuery = collection.count({})
+    const countQuery = collection.countDocuments({})
     const findQuery = collection
       .find({})
       .sort(options.sort)
