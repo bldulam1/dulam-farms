@@ -65,20 +65,13 @@ export const datesControlProps = (control: Control<any>) => ({
   fullWidth: true,
 })
 
-export const fetchData = (
-  url: string,
-  setRows: React.Dispatch<React.SetStateAction<any>>
-) => {
-  fetch(url, {
+export const fetchData = (url: string): Promise<[]> => {
+  return fetch(url, {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
   })
     .then((res) => res.json())
-    .then((res: []) => {
-      if (res && res.length) {
-        setRows(res)
-      }
-    })
+    .then((res: []) => res)
 }
