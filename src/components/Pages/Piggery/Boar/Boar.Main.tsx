@@ -4,6 +4,7 @@ import BoarFormDialog from './Boar.FormDialog'
 import BoarStyles from './Boar.Styles'
 import BoarTable from './Boar.Table'
 import Button from '@material-ui/core/Button'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import Toolbar from '@material-ui/core/Toolbar'
 import { TransactionStatus } from '../Forms/Forms.Interfaces'
 import { createResource } from './Boar.utils'
@@ -37,7 +38,19 @@ export default () => {
           New Entry
         </Button>
       </Toolbar>
-      <Suspense fallback={<div>Loading</div>}>
+      <Suspense
+        fallback={
+          <div
+            style={{
+              width: '100vw',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <CircularProgress size={100} />
+          </div>
+        }
+      >
         <BoarTable status={status} resource={resource} />
       </Suspense>
     </div>

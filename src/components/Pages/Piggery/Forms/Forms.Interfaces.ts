@@ -9,7 +9,7 @@ export interface IBoarEntry {
 }
 interface TableEntry {
   headerName: string
-  bodyDisplay: (value: any) => string
+  bodyDisplay: (value: any) => string | number
 }
 
 export const boarHeaders: {
@@ -23,6 +23,10 @@ export const boarHeaders: {
     headerName: 'Birth Date',
     bodyDisplay: (value: Date) => new Date(value).toLocaleDateString(),
   },
+  breed: {
+    headerName: 'Breed',
+    bodyDisplay: (value: string) => value,
+  },
   recordDate: {
     headerName: 'Date Recorded',
     bodyDisplay: (value: Date) => {
@@ -30,10 +34,6 @@ export const boarHeaders: {
       const _date = [value.toLocaleDateString(), value.toLocaleTimeString()]
       return _date.join(' ')
     },
-  },
-  breed: {
-    headerName: 'Breed',
-    bodyDisplay: (value: string) => value,
   },
 }
 
