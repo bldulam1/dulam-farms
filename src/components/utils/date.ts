@@ -19,15 +19,15 @@ export const timeElapsed = (date: Date): string => {
   }
 
   // Round result
-  const whole = Math.floor(timeDiff)
+  const whole = timeDiff > 0 ? Math.floor(timeDiff) : 0
 
   // Check remainder
   const unitNames = Object.keys(timeMap)
   const unitIndex = unitNames.findIndex((key) => key === unit)
   if (unitIndex > 1 && timeDiff > whole) {
     const remUnit = unitNames[unitIndex - 1]
-    const remainder = (timeDiff - whole) * timeMap[remUnit]
-    return `${whole}${unit},${Math.round(remainder)}${remUnit}`
+    const remainder = Math.round((timeDiff - whole) * timeMap[remUnit])
+    return `${whole}${unit},${remainder}${remUnit}`
   }
 
   return `${whole}${unit}`
