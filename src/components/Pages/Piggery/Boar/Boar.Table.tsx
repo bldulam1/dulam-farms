@@ -12,11 +12,13 @@ import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import { defaultSearchOptions } from './Boar.utils'
 import { timeElapsed } from '../../../utils/date'
+import { useSnackbar } from 'notistack'
 
 export default (params: {
   status: TransactionStatus
   resource: { boars: { read: () => any } }
 }) => {
+  const { enqueueSnackbar } = useSnackbar()
   const result = params.resource.boars.read()
   const [rows, setRows] = useState<FetchResult>(result)
   const [options, setOptions] = useState(defaultSearchOptions)
@@ -39,14 +41,14 @@ export default (params: {
             setReloadState('success')
           }
         },
-        (err) => alert(err)
+        (err) => enqueueSnackbar(err, { variant: 'error' })
       )
 
       return () => {
         isLoaded = false
       }
     }
-  }, [params.status, options])
+  }, [params.status, options, enqueueSnackbar])
 
   const handlePageChange = (event: unknown, newPage: number) => {
     setOptions((op) => ({ ...op, page: newPage }))
