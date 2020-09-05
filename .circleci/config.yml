@@ -14,6 +14,8 @@ jobs:
           keys:
             - go-mod-v4-{{ checksum "go.sum" }}
       - run: go build -o ./.lambda -i ./go-src
+      - store_artifacts:
+          path: ./lambda
 
   build-client:
     working_directory: ~/dulam-farms
