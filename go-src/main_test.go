@@ -2,7 +2,7 @@ package main_test
 
 import (
 	"github.com/aws/aws-lambda-go/events"
-	main "github.com/bldulam1/dulam-farms"
+	main "github.com/bldulam1/dulam-farms/go-src"
 	"github.com/stretchr/testify/assert"
 	"log"
 	"testing"

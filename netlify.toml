@@ -3,3 +3,6 @@
   command = "yarn build"
   functions = ".lambda/" # netlify dev uses this to know where to scaffold and serve your functions
   publish = "build/"
+
+[build.environment]
+  GO_VERSION = "1.14.6"

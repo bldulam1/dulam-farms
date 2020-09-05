@@ -26,7 +26,7 @@
     "start": "netlify dev",
     "start:client": "react-scripts start",
     "start:lambda": "netlify-lambda serve ./src/lambda/functions",
-    "build": "yarn build:client && yarn build:lambda",
+    "build": "make Makefile",
     "build:client": "react-scripts build",
     "build:lambda": "netlify-lambda build ./src/lambda/functions",
     "test": "react-scripts test",
