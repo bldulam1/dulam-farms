@@ -1,6 +1,19 @@
 version: 2.1
 jobs:
-  build:
+  build-lambda:
+    working_directory: ~/dulam-farms
+    docker:
+      - image: circleci/golang:1.14
+    environment: # environment variables for the build itself
+      GO111MODULE: "on"
+    steps:
+      - checkout
+      - run: mkdir -p .lambda
+      - restore_cache: # restores saved cache if no changes are detected since last run
+          keys:
+            - go-mod-v4-{{ checksum "go.sum" }}
+
+  build-client:
     working_directory: ~/dulam-farms
     docker:
       - image: circleci/node:10.21.0
@@ -21,9 +34,15 @@ jobs:
       - run:
           name: build client
           command: yarn build:client
-      - run:
-          name: build lambda function
-          command: yarn build:lambda
-
+#      - run:
+#          name: build lambda function
+#          command: GOBIN=$(pwd)/.lambda go install ./...
       - store_artifacts:
           path: ./build
+
+workflows:
+  version: 2
+  build-workflow:
+    jobs:
+      - build-lambda
+      - build-client
