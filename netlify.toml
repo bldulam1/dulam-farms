@@ -3,3 +3,13 @@
   command = "yarn build"
   functions = ".lambda/" # netlify dev uses this to know where to scaffold and serve your functions
   publish = "build/"
+
+[build.environment]
+  GO_VERSION = "1.14.6"
+  GO_IMPORT_PATH = "github.com/bldulam1/dulam-farms"
+  GO111MODULE = "on"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/gateway/:splat"
+  status = 200
