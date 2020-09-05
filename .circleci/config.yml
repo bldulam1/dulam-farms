@@ -13,7 +13,7 @@ jobs:
       - restore_cache: # restores saved cache if no changes are detected since last run
           keys:
             - go-mod-v4-{{ checksum "go.sum" }}
-      - run: go install ./...
+      - run: go build -o ./.lambda -i ./go-src
 
   build-client:
     working_directory: ~/dulam-farms
