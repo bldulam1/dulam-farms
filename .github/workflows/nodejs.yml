@@ -19,15 +19,12 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Install Dependencies
       run: yarn
-#    - name: Build client
-#      run: yarn build:client
-#      env:
-#        CI: true
-#    - name: Build lambda function
-#      run: yarn build:lambda
-#      env:
-#        CI: true
-    - name: Build
-      run: yarn build
+    - name: Build lambda function
+      run: yarn build:lambda
+      env:
+        CI: true
+        GO111MODULE: "on"
+    - name: Build client
+      run: yarn build:client
       env:
         CI: true
