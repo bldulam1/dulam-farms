@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField'
 import { TransactionStatus } from './Forms.Interfaces'
 
 export const yyyyMMdd = (date: Date) => {
-  const m = date.getMonth()
+  const m = date.getMonth() + 1
   const d = date.getDate()
   const mm = m >= 10 ? m : '0' + m
   const dd = d >= 10 ? d : '0' + d

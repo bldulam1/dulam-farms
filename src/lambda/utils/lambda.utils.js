@@ -1,4 +1,5 @@
 const { MongoClient } = require('mongodb')
+const { convertData } = require('./lambda.types')
 
 const mongoOptions = { useUnifiedTopology: true }
 
@@ -22,10 +23,11 @@ export function createDBEntry({ dbURL, callback, data, dbName, dbCollection }) {
   MongoClient.connect(url, mongoOptions, (err, connection) => {
     if (err) return errorResponse(callback, err)
 
+    data = convertData(data, dbCollection)
     connection
       .db(dbName)
       .collection(dbCollection)
-      .insertOne(JSON.parse(data), (err, result) => {
+      .insertOne(data, (err, result) => {
         if (err) return errorResponse(callback, err)
 
         connection.close()
