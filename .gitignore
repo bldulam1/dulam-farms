@@ -26,3 +26,4 @@ bundle.zip
 
 # built lambda function
 /.lambda
+/.idea
