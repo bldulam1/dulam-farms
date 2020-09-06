@@ -1,34 +1,16 @@
 export const timeElapsed = (date: Date): string => {
-  const timeMap: { [key: string]: number } = {
-    ms: 1000,
-    sec: 60,
-    min: 60,
-    h: 24,
-    d: 365.25 / 12,
-    mo: 12,
+  const diff_ms = new Date().getTime() - new Date(date).getTime()
+  let days = Math.floor(diff_ms / (24 * 60 * 60 * 1000))
+
+  const y = Math.floor(days / 365)
+  const m = Math.floor((days - 365 * y) / 30)
+  const d = days - 365 * y - 30 * m
+
+  if (y > 0) {
+    return `${y}y,${m}m`
+  } else if (m > 0) {
+    return `${m}mo,${d}d`
   }
 
-  // Get unit
-  let unit = 'ms'
-  let timeDiff = new Date().getTime() - new Date(date).getTime()
-  for (let key in timeMap) {
-    if (timeDiff > timeMap[key]) {
-      unit = key
-      timeDiff /= timeMap[key]
-    }
-  }
-
-  // Round result
-  const whole = timeDiff > 0 ? Math.floor(timeDiff) : 0
-
-  // Check remainder
-  const unitNames = Object.keys(timeMap)
-  const unitIndex = unitNames.findIndex((key) => key === unit)
-  if (unitIndex > 1 && timeDiff > whole) {
-    const remUnit = unitNames[unitIndex - 1]
-    const remainder = Math.round((timeDiff - whole) * timeMap[remUnit])
-    return `${whole}${unit},${remainder}${remUnit}`
-  }
-
-  return `${whole}${unit}`
+  return `${d}d`
 }

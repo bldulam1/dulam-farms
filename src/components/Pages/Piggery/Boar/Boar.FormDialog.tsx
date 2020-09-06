@@ -25,7 +25,6 @@ export default (params: {
 }) => {
   const { control, handleSubmit, reset } = useForm<IBoarEntry>()
   const { status, setStatus } = params
-  // const [status, setStatus] = React.useState<TransactionStatus>()
   const { enqueueSnackbar } = useSnackbar()
 
   const onSubmit = (data: IBoarEntry) => {
