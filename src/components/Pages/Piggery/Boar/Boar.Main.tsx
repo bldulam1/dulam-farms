@@ -1,10 +1,10 @@
 import React, { Suspense, useState } from 'react'
 
 import BoarFormDialog from './Boar.FormDialog'
-import BoarStyles from './Boar.Styles'
 import BoarTable from './Boar.Table'
 import Button from '@material-ui/core/Button'
 import LoaderData from '../../Loader/Loader.Data'
+import PiggeryStyles from '../Piggery.Styles'
 import Toolbar from '@material-ui/core/Toolbar'
 import { TransactionStatus } from '../Forms/Forms.Interfaces'
 import { createResource } from './Boar.utils'
@@ -18,7 +18,7 @@ export default () => {
   const handleClose = () => setOpen(false)
   const handleOpen = () => setOpen(true)
 
-  const classes = BoarStyles()
+  const classes = PiggeryStyles()
 
   return (
     <div>
