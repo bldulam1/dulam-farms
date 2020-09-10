@@ -1,4 +1,4 @@
-import { FetchResult, fetchData } from '../Forms/Forms.util'
+import { FetchResult, fetchData } from './Forms/Forms.util'
 
 export const wrapPromise = (promise: Promise<any>) => {
   let status = 'pending'
@@ -40,14 +40,11 @@ export interface SearchOption {
   skip: number
   sort: any
 }
-export const createResource = () => {
-  return {
-    boars: wrapPromise(
-      fetchData(
-        `/.netlify/functions/data?collection=boars&options=${JSON.stringify(
-          defaultSearchOptions
-        )}`
-      )
-    ),
-  }
-}
+export const createResource = (collection: 'boars' | 'hogs' | 'sows') =>
+  wrapPromise(
+    fetchData(
+      `/.netlify/functions/data?collection=${collection}&options=${JSON.stringify(
+        defaultSearchOptions
+      )}`
+    )
+  )

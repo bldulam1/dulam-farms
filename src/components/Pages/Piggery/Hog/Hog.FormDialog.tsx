@@ -19,8 +19,6 @@ import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import { useSnackbar } from 'notistack'
 
-// import CardHeader from '@material-ui/core/CardHeader'
-
 export default (props: DialogProps) => {
   const { control, handleSubmit, reset } = useForm<IHogEntry>()
   const [status, setStatus] = useState<TransactionStatus>(null)

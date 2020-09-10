@@ -7,9 +7,9 @@ import LoaderData from '../../Loader/Loader.Data'
 import PiggeryStyles from '../Piggery.Styles'
 import Toolbar from '@material-ui/core/Toolbar'
 import { TransactionStatus } from '../Forms/Forms.Interfaces'
-import { createResource } from './Boar.utils'
+import { createResource } from '../Piggery.Utils'
 
-const resource = createResource()
+const resource = createResource('boars')
 
 export default () => {
   const [open, setOpen] = useState(false)

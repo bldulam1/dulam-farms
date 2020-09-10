@@ -1,7 +1,6 @@
-import { FetchResult, fetchData } from '../Forms/Forms.util'
-import React, { useEffect, useState } from 'react'
-import { TransactionStatus, boarHeaders } from '../Forms/Forms.Interfaces'
+import React, { Fragment, useState } from 'react'
 
+import { FetchResult } from '../Forms/Forms.util'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -13,40 +12,12 @@ import TableRow from '@material-ui/core/TableRow'
 import { defaultSearchOptions } from '../Piggery.Utils'
 import { timeElapsed } from '../../../utils/date'
 
-export default (params: {
-  status: TransactionStatus
-  resource: { read: () => any }
-}) => {
-  const result = params.resource.read()
-  const [rows, setRows] = useState<FetchResult>(result)
-  const [options, setOptions] = useState(defaultSearchOptions)
+export default (params: { resource: { read: () => any } }) => {
+  const [rows, setRows] = useState<FetchResult>(params.resource.read())
   const [reloadState, setReloadState] = useState<'in progress' | 'success'>(
     'success'
   )
-
-  useEffect(() => {
-    let isLoaded = true
-    if (params.status === 'success' || options) {
-      const url = `/.netlify/functions/data?collection=boars&options=${JSON.stringify(
-        options
-      )}`
-      setReloadState('in progress')
-
-      fetchData(url).then(
-        (res) => {
-          if (isLoaded) {
-            setRows(res)
-            setReloadState('success')
-          }
-        },
-        (err) => alert(err)
-      )
-
-      return () => {
-        isLoaded = false
-      }
-    }
-  }, [params.status, options])
+  const [options, setOptions] = useState(defaultSearchOptions)
 
   const handlePageChange = (event: unknown, newPage: number) => {
     setOptions((op) => ({ ...op, page: newPage }))
@@ -56,28 +27,45 @@ export default (params: {
     event: React.ChangeEvent<HTMLInputElement>
   ) => setOptions((op) => ({ ...op, limit: Number(event.target.value) }))
 
+  console.log(rows)
+  // hogId: "asdf"
+  // birthDate: "2020-07-30T00:00:00.000Z"
+  // sex: "Female"
+  // nipplesCount: "12"
+  // fatherPigID: "asdflkj"
+  // motherPigID: "asdflk"
+  // recordDate: "2020-08-29T21:31:17.230Z"
+
   return (
-    <React.Fragment>
+    <Fragment>
       <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
-              {Object.keys(boarHeaders).map((header, index) => (
-                <TableCell key={`header-id-${index}-${header}`} align="center">
-                  {boarHeaders[header].headerName}
-                </TableCell>
-              ))}
+              <TableCell align="center">ID</TableCell>
+              <TableCell align="center">Birth Date</TableCell>
+              <TableCell align="center">Sex</TableCell>
+              <TableCell align="center"> Nipples</TableCell>
+              <TableCell align="center">Father</TableCell>
+              <TableCell align="center">Mother</TableCell>
+              <TableCell align="center">Date Recorded</TableCell>
               <TableCell align="center">Age</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows.subset.map((row: { [key: string]: any }) => (
               <TableRow key={row._id}>
-                {Object.keys(boarHeaders).map((header, index) => (
-                  <TableCell key={`body-id-${index}-${row._id}`} align="center">
-                    {boarHeaders[header].bodyDisplay(row[header])}
-                  </TableCell>
-                ))}
+                <TableCell align="center">{row.hogId}</TableCell>
+                <TableCell align="center">
+                  {new Date(row.birthDate).toLocaleDateString()}
+                </TableCell>
+                <TableCell align="center">{row.sex}</TableCell>
+                <TableCell align="center">{row.nipplesCount}</TableCell>
+                <TableCell align="center">{row.fatherPigID}</TableCell>
+                <TableCell align="center">{row.motherPigID}</TableCell>
+                <TableCell align="center">
+                  {new Date(row.recordDate).toLocaleString()}
+                </TableCell>
                 <TableCell align="center">
                   {timeElapsed(row.birthDate)}
                 </TableCell>
@@ -97,6 +85,6 @@ export default (params: {
         labelRowsPerPage="Rows"
         onChangeRowsPerPage={handleRowsPerPageChange}
       />
-    </React.Fragment>
+    </Fragment>
   )
 }
