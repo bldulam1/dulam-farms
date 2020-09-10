@@ -14,7 +14,6 @@ exports.handler = (event, context, callback) => {
   }
 
   const dbName = process.env.DB_NAME || 'farm-management-dev'
-  console.log(dbName)
 
   switch (event.httpMethod) {
     case 'POST':

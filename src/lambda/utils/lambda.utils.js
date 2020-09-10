@@ -61,6 +61,7 @@ export function fetchDBEntry({
     Promise.all([countQuery, findQuery]).then(
       ([total, subset]) => {
         connection.close()
+
         successResponse(callback, {
           total,
           subset,
