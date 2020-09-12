@@ -17,10 +17,8 @@ function createHog(data) {
 
 function createSow(data) {
   return {
-    ...data,
-    birthDate: new Date(data.birthDate),
-    recordDate: new Date(data.recordDate),
-    nipplesCount: Number(data.nipplesCount),
+    ...createHog(data),
+    purchaseDate: new Date(data.birthDate),
   }
 }
 
