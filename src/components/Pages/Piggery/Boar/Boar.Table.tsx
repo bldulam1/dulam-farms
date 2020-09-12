@@ -25,9 +25,10 @@ export default (params: {
   )
   const [isInintialLoad, setIsInitialLoad] = useState(true)
 
+  const isTriggerReload = params.status === 'success'
   useEffect(() => {
     let isLoaded = true
-    if (!isInintialLoad) {
+    if (!isInintialLoad || isTriggerReload) {
       setReloadState('in progress')
 
       const url = getResourceURL('boars', options)
@@ -47,7 +48,7 @@ export default (params: {
       }
       isLoaded = false
     }
-  }, [options, isInintialLoad])
+  }, [options, isInintialLoad, isTriggerReload])
 
   const handlePageChange = (event: unknown, newPage: number) => {
     setOptions((op) => ({ ...op, page: newPage }))

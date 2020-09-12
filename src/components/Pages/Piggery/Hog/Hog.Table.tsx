@@ -10,9 +10,13 @@ import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
+import { TransactionStatus } from '../Forms/Forms.Interfaces'
 import { timeElapsed } from '../../../utils/date'
 
-export default (params: { resource: { read: () => any } }) => {
+export default (params: {
+  status: TransactionStatus
+  resource: { read: () => any }
+}) => {
   const [rows, setRows] = useState<FetchResult>(params.resource.read())
   const [isInintialLoad, setIsInitialLoad] = useState(true)
   const [reloadState, setReloadState] = useState<'in progress' | 'success'>(
@@ -20,9 +24,10 @@ export default (params: { resource: { read: () => any } }) => {
   )
   const [options, setOptions] = useState(defaultSearchOptions)
 
+  const isTriggerReload = params.status === 'success'
   useEffect(() => {
     let isLoaded = true
-    if (!isInintialLoad) {
+    if (!isInintialLoad || isTriggerReload) {
       setReloadState('in progress')
 
       const url = getResourceURL('hogs', options)
@@ -43,7 +48,7 @@ export default (params: { resource: { read: () => any } }) => {
       }
       isLoaded = false
     }
-  }, [options, isInintialLoad])
+  }, [options, isInintialLoad, isTriggerReload])
 
   const handlePageChange = (event: unknown, newPage: number) => {
     setOptions((op) => ({ ...op, page: newPage }))
