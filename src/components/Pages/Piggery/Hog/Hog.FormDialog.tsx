@@ -1,7 +1,6 @@
 import { Controller, useForm } from 'react-hook-form'
 import Dialog, { DialogProps } from '@material-ui/core/Dialog'
 import { IHogEntry, TransactionStatus } from '../Forms/Forms.Interfaces'
-import React, { useState } from 'react'
 import {
   createEntry,
   datesControlProps,
@@ -14,6 +13,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import FormsSubmit from '../Forms/Forms.Submit'
 import Grid from '@material-ui/core/Grid'
 import MenuItem from '@material-ui/core/MenuItem'
+import React from 'react'
 import ReactHookFormSelect from '../Forms/ReactHookFormSelect'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
