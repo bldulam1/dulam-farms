@@ -38,9 +38,7 @@ export default (props: {
         ...data,
         birthDate: new Date(data.birthDate),
         recordDate: new Date(),
-        purchaseDate: isImported
-          ? new Date(data.purchaseDate)
-          : new Date(data.birthDate),
+        purchaseDate: isImported ? new Date(data.purchaseDate) : null,
         isImported,
       },
       handleServerResponse(collection, setStatus, enqueueSnackbar, reset)

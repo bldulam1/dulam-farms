@@ -52,7 +52,7 @@ export default (props: {
 
   return (
     <Dialog {...props.dialogProps}>
-      <DialogTitle>New Boar Form</DialogTitle>
+      <DialogTitle>New Hog Form</DialogTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
           <Typography variant="h6">Basic Info</Typography>
