@@ -64,7 +64,7 @@ export default (params: {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell align="center">ID</TableCell>
+              <TableCell align="center">Hog ID</TableCell>
               <TableCell align="center">Birth Date</TableCell>
               <TableCell align="center">Sex</TableCell>
               <TableCell align="center"> Nipples</TableCell>
