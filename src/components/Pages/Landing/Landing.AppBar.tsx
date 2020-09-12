@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 
 import AppBar from '@material-ui/core/AppBar'
 import AppContext from '../../Main/App.Context'
+import AppDrawer from '../../Main/App.Drawer'
 import Brightness7Icon from '@material-ui/icons/Brightness7'
 import BrightnessLowIcon from '@material-ui/icons/BrightnessLow'
 import IconButton from '@material-ui/core/IconButton'
@@ -18,7 +19,7 @@ export default () => {
   const { isDarkMode } = appContext.state
 
   const toggleDarkMode = () => {
-    appContext.setState({ isDarkMode: !isDarkMode })
+    appContext.setState((s) => ({ ...s, isDarkMode: !isDarkMode }))
   }
 
   return (
@@ -38,6 +39,7 @@ export default () => {
           >
             {isDarkMode ? <BrightnessLowIcon /> : <Brightness7Icon />}
           </IconButton>
+          <AppDrawer />
         </div>
       </Toolbar>
     </AppBar>
