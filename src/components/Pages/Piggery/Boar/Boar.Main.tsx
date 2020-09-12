@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from 'react'
+import React, { Fragment, Suspense, useState } from 'react'
 
 import BoarFormDialog from './Boar.FormDialog'
 import BoarTable from './Boar.Table'
@@ -21,7 +21,7 @@ export default () => {
   const classes = PiggeryStyles()
 
   return (
-    <div>
+    <Fragment>
       <BoarFormDialog
         open={open}
         onClose={handleClose}
@@ -41,6 +41,6 @@ export default () => {
       <Suspense fallback={<LoaderData />}>
         <BoarTable status={status} resource={resource} />
       </Suspense>
-    </div>
+    </Fragment>
   )
 }

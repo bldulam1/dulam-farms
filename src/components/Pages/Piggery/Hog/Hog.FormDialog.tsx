@@ -19,9 +19,13 @@ import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import { useSnackbar } from 'notistack'
 
-export default (props: DialogProps) => {
+export default (props: {
+  dialogProps: DialogProps
+  status: TransactionStatus
+  setStatus: React.Dispatch<React.SetStateAction<TransactionStatus>>
+}) => {
   const { control, handleSubmit, reset } = useForm<IHogEntry>()
-  const [status, setStatus] = useState<TransactionStatus>(null)
+  const { status, setStatus } = props
   const { enqueueSnackbar } = useSnackbar()
 
   const onSubmit = (data: IHogEntry) => {
@@ -47,7 +51,7 @@ export default (props: DialogProps) => {
   }
 
   return (
-    <Dialog {...props}>
+    <Dialog {...props.dialogProps}>
       <DialogTitle>New Boar Form</DialogTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
