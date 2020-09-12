@@ -48,3 +48,8 @@ export const createResource = (collection: 'boars' | 'hogs' | 'sows') =>
       )}`
     )
   )
+
+export const getResourceURL = (collection: string, options: any) => {
+  const optString = JSON.stringify(options)
+  return `/.netlify/functions/data?collection=${collection}&options=${optString}`
+}

@@ -1,6 +1,7 @@
 import { FetchResult, fetchData } from '../Forms/Forms.util'
 import React, { useEffect, useState } from 'react'
 import { TransactionStatus, boarHeaders } from '../Forms/Forms.Interfaces'
+import { defaultSearchOptions, getResourceURL } from '../Piggery.Utils'
 
 import LinearProgress from '@material-ui/core/LinearProgress'
 import Table from '@material-ui/core/Table'
@@ -10,7 +11,6 @@ import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
-import { defaultSearchOptions } from '../Piggery.Utils'
 import { timeElapsed } from '../../../utils/date'
 
 export default (params: {
@@ -23,15 +23,14 @@ export default (params: {
   const [reloadState, setReloadState] = useState<'in progress' | 'success'>(
     'success'
   )
+  const [isInintialLoad, setIsInitialLoad] = useState(true)
 
   useEffect(() => {
     let isLoaded = true
-    if (params.status === 'success' || options) {
-      const url = `/.netlify/functions/data?collection=boars&options=${JSON.stringify(
-        options
-      )}`
+    if (!isInintialLoad) {
       setReloadState('in progress')
 
+      const url = getResourceURL('boars', options)
       fetchData(url).then(
         (res) => {
           if (isLoaded) {
@@ -41,12 +40,14 @@ export default (params: {
         },
         (err) => alert(err)
       )
-
-      return () => {
-        isLoaded = false
-      }
     }
-  }, [params.status, options])
+    return () => {
+      if (isInintialLoad) {
+        setIsInitialLoad(false)
+      }
+      isLoaded = false
+    }
+  }, [options, isInintialLoad])
 
   const handlePageChange = (event: unknown, newPage: number) => {
     setOptions((op) => ({ ...op, page: newPage }))

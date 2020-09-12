@@ -1,6 +1,7 @@
-import React, { Fragment, useState } from 'react'
+import { FetchResult, fetchData } from '../Forms/Forms.util'
+import React, { Fragment, useEffect, useState } from 'react'
+import { defaultSearchOptions, getResourceURL } from '../Piggery.Utils'
 
-import { FetchResult } from '../Forms/Forms.util'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -9,15 +10,40 @@ import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
-import { defaultSearchOptions } from '../Piggery.Utils'
 import { timeElapsed } from '../../../utils/date'
 
 export default (params: { resource: { read: () => any } }) => {
   const [rows, setRows] = useState<FetchResult>(params.resource.read())
+  const [isInintialLoad, setIsInitialLoad] = useState(true)
   const [reloadState, setReloadState] = useState<'in progress' | 'success'>(
     'success'
   )
   const [options, setOptions] = useState(defaultSearchOptions)
+
+  useEffect(() => {
+    let isLoaded = true
+    if (!isInintialLoad) {
+      setReloadState('in progress')
+
+      const url = getResourceURL('hogs', options)
+      fetchData(url).then(
+        (res) => {
+          if (isLoaded) {
+            setRows(res)
+            setReloadState('success')
+          }
+        },
+        (err) => alert(err)
+      )
+    }
+
+    return () => {
+      if (isInintialLoad) {
+        setIsInitialLoad(false)
+      }
+      isLoaded = false
+    }
+  }, [options, isInintialLoad])
 
   const handlePageChange = (event: unknown, newPage: number) => {
     setOptions((op) => ({ ...op, page: newPage }))
@@ -26,15 +52,6 @@ export default (params: { resource: { read: () => any } }) => {
   const handleRowsPerPageChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => setOptions((op) => ({ ...op, limit: Number(event.target.value) }))
-
-  console.log(rows)
-  // hogId: "asdf"
-  // birthDate: "2020-07-30T00:00:00.000Z"
-  // sex: "Female"
-  // nipplesCount: "12"
-  // fatherPigID: "asdflkj"
-  // motherPigID: "asdflk"
-  // recordDate: "2020-08-29T21:31:17.230Z"
 
   return (
     <Fragment>
