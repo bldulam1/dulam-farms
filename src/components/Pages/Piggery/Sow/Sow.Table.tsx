@@ -15,7 +15,7 @@ import { timeElapsed } from '../../../utils/date'
 
 export default (params: {
   status: TransactionStatus
-  resource: { read: () => any }
+  resource: { read: () => FetchResult | (() => FetchResult) }
 }) => {
   const [rows, setRows] = useState<FetchResult>(params.resource.read())
   const [isInintialLoad, setIsInitialLoad] = useState(true)
@@ -25,12 +25,13 @@ export default (params: {
   const [options, setOptions] = useState(defaultSearchOptions)
 
   const isTriggerReload = params.status === 'success'
+  console.log(isTriggerReload)
   useEffect(() => {
     let isLoaded = true
     if (!isInintialLoad || isTriggerReload) {
       setReloadState('in progress')
 
-      const url = getResourceURL('hogs', options)
+      const url = getResourceURL('sows', options)
       fetchData(url).then(
         (res) => {
           if (isLoaded) {
@@ -64,12 +65,10 @@ export default (params: {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell align="center">Hog ID</TableCell>
+              <TableCell align="center">Sow ID</TableCell>
               <TableCell align="center">Birth Date</TableCell>
-              <TableCell align="center">Sex</TableCell>
-              <TableCell align="center"> Nipples</TableCell>
-              <TableCell align="center">Father</TableCell>
-              <TableCell align="center">Mother</TableCell>
+              <TableCell align="center">Nipples</TableCell>
+              <TableCell align="center">Breed</TableCell>
               <TableCell align="center">Date Recorded</TableCell>
               <TableCell align="center">Age</TableCell>
             </TableRow>
@@ -77,14 +76,12 @@ export default (params: {
           <TableBody>
             {rows.subset.map((row: { [key: string]: any }) => (
               <TableRow key={row._id}>
-                <TableCell align="center">{row.hogId}</TableCell>
+                <TableCell align="center">{row.sowID}</TableCell>
                 <TableCell align="center">
                   {new Date(row.birthDate).toLocaleDateString()}
                 </TableCell>
-                <TableCell align="center">{row.sex}</TableCell>
                 <TableCell align="center">{row.nipplesCount}</TableCell>
-                <TableCell align="center">{row.fatherPigID}</TableCell>
-                <TableCell align="center">{row.motherPigID}</TableCell>
+                <TableCell align="center">{row.breed}</TableCell>
                 <TableCell align="center">
                   {new Date(row.recordDate).toLocaleString()}
                 </TableCell>
