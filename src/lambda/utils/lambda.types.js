@@ -6,12 +6,32 @@ function createBoar(data) {
   }
 }
 
+function createHog(data) {
+  return {
+    ...data,
+    birthDate: new Date(data.birthDate),
+    recordDate: new Date(data.recordDate),
+    nipplesCount: Number(data.nipplesCount),
+  }
+}
+
+function createSow(data) {
+  return {
+    ...createHog(data),
+    purchaseDate: new Date(data.birthDate),
+  }
+}
+
 export const convertData = (data, collection) => {
   data = JSON.parse(data)
 
   switch (collection) {
     case 'boars':
       return createBoar(data)
+    case 'hogs':
+      return createHog(data)
+    case 'sows':
+      return createSow(data)
     default:
       return data
   }

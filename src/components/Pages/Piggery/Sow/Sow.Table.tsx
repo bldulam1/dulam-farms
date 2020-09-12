@@ -25,7 +25,6 @@ export default (params: {
   const [options, setOptions] = useState(defaultSearchOptions)
 
   const isTriggerReload = params.status === 'success'
-  console.log(isTriggerReload)
   useEffect(() => {
     let isLoaded = true
     if (!isInintialLoad || isTriggerReload) {
