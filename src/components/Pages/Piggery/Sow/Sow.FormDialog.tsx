@@ -24,10 +24,9 @@ export default (props: {
   status: TransactionStatus
   setStatus: React.Dispatch<React.SetStateAction<TransactionStatus>>
 }) => {
-  const { control, handleSubmit, reset } = useForm<ISowEntry>()
   const [isImported, setIsImported] = useState(false)
-
-  const [status, setStatus] = useState<TransactionStatus>(null)
+  const { control, handleSubmit, reset } = useForm<ISowEntry>()
+  const { status, setStatus } = props
   const { enqueueSnackbar } = useSnackbar()
 
   const onSubmit = (data: ISowEntry) => {
