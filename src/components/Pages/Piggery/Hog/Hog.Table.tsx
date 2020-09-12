@@ -17,7 +17,9 @@ export default (params: {
   status: TransactionStatus
   resource: { read: () => any }
 }) => {
-  const [rows, setRows] = useState<FetchResult>(params.resource.read())
+  const [rows, setRows] = useState<FetchResult>(
+    params.resource.read() || { subset: [], total: 0 }
+  )
   const [isInintialLoad, setIsInitialLoad] = useState(true)
   const [reloadState, setReloadState] = useState<'in progress' | 'success'>(
     'success'

@@ -1,3 +1,4 @@
+import CloseIcon from '@material-ui/icons/Close'
 import Divider from '@material-ui/core/Divider'
 import IconButton from '@material-ui/core/IconButton'
 import InboxIcon from '@material-ui/icons/MoveToInbox'
@@ -9,8 +10,8 @@ import MailIcon from '@material-ui/icons/Mail'
 import MenuIcon from '@material-ui/icons/Menu'
 import React from 'react'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
+import Toolbar from '@material-ui/core/Toolbar'
 import { makeStyles } from '@material-ui/core/styles'
-
 const useStyles = makeStyles({
   list: {
     width: 250,
@@ -18,20 +19,18 @@ const useStyles = makeStyles({
   fullList: {
     width: 'auto',
   },
+  toolbar: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
 })
-
-type Anchor = 'top' | 'left' | 'bottom' | 'right'
 
 export default () => {
   const classes = useStyles()
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  })
+  const [drawerOpen, setDrawerOpen] = React.useState(false)
 
-  const toggleDrawer = (anchor: Anchor, open: boolean) => (
+  const toggleDrawer = (open: boolean) => (
     event: React.KeyboardEvent | React.MouseEvent
   ) => {
     if (
@@ -43,27 +42,31 @@ export default () => {
       return
     }
 
-    setState({ ...state, [anchor]: open })
+    setDrawerOpen(open)
   }
 
-  const anchor = 'right'
   return (
     <React.Fragment>
-      <IconButton color="inherit" onClick={toggleDrawer(anchor, true)}>
+      <IconButton color="inherit" onClick={toggleDrawer(true)}>
         <MenuIcon />
       </IconButton>
       <SwipeableDrawer
-        anchor={anchor}
-        open={state[anchor]}
-        onClose={toggleDrawer(anchor, false)}
-        onOpen={toggleDrawer(anchor, true)}
+        anchor="right"
+        open={drawerOpen}
+        onClose={toggleDrawer(false)}
+        onOpen={toggleDrawer(true)}
       >
         <div
           className={classes.list}
           role="presentation"
-          onClick={toggleDrawer(anchor, false)}
-          onKeyDown={toggleDrawer(anchor, false)}
+          onClick={toggleDrawer(false)}
+          onKeyDown={toggleDrawer(false)}
         >
+          <Toolbar className={classes.toolbar}>
+            <IconButton>
+              <CloseIcon />
+            </IconButton>
+          </Toolbar>
           <List>
             {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
               <ListItem button key={text}>

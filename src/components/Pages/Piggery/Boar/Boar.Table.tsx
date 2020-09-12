@@ -17,7 +17,7 @@ export default (params: {
   status: TransactionStatus
   resource: { read: () => any }
 }) => {
-  const result = params.resource.read()
+  const result = params.resource.read() || { subset: [], total: 0 }
   const [rows, setRows] = useState<FetchResult>(result)
   const [options, setOptions] = useState(defaultSearchOptions)
   const [reloadState, setReloadState] = useState<'in progress' | 'success'>(
