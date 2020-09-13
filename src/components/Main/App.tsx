@@ -32,7 +32,7 @@ export default () => {
             <LandingAppBar />
 
             <Switch>
-              <Route path="/piggery">
+              <Route path="/piggery/:subcategory">
                 <PiggeryMain />
               </Route>
               <Route path="/broiler">
