@@ -23,7 +23,7 @@ export default () => {
   }
 
   return (
-    <AppBar position="sticky" color={isDarkMode ? 'transparent' : 'primary'}>
+    <AppBar position="sticky" color={isDarkMode ? 'inherit' : 'primary'}>
       <Toolbar className={classes.toolbar}>
         <div className={classes.toolbarItem}>
           <Link underline="none" color="inherit" component={RouterLink} to="/">
