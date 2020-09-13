@@ -16,6 +16,7 @@ export default () => {
 }
 
 const SubCategory = (params: { category: string }) => {
+  console.log(params.category)
   switch (params.category) {
     case 'sows':
       return <SowMain />

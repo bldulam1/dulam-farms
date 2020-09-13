@@ -132,13 +132,23 @@ export default () => {
                 </ListItem>
               </List>
             </Collapse>
-            <ListItem button>
+            <ListItem
+              button
+              component={Link}
+              to="/broiler"
+              onClick={toggleDrawer(false)}
+            >
               <ListItemIcon>
                 <BusinessCenterIcon />
               </ListItemIcon>
               <ListItemText primary="Broiler" />
             </ListItem>
-            <ListItem button>
+            <ListItem
+              button
+              component={Link}
+              to="/cattle"
+              onClick={toggleDrawer(false)}
+            >
               <ListItemIcon>
                 <BusinessCenterIcon />
               </ListItemIcon>
