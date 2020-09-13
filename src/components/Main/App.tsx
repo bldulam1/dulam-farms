@@ -30,7 +30,6 @@ export default () => {
           <Router>
             <CssBaseline />
             <LandingAppBar />
-
             <Switch>
               <Route path="/piggery/:subcategory">
                 <PiggeryMain />

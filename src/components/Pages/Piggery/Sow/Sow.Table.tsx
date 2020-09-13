@@ -12,6 +12,8 @@ import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import { TransactionStatus } from '../Forms/Forms.Interfaces'
 import { timeElapsed } from '../../../utils/date'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import useTheme from '@material-ui/core/styles/useTheme'
 
 export default (params: {
   status: TransactionStatus
@@ -59,10 +61,13 @@ export default (params: {
     event: React.ChangeEvent<HTMLInputElement>
   ) => setOptions((op) => ({ ...op, limit: Number(event.target.value) }))
 
+  const theme = useTheme()
+  const dense = useMediaQuery(theme.breakpoints.down('md'))
+
   return (
     <Fragment>
       <TableContainer>
-        <Table>
+        <Table size={dense ? 'small' : 'medium'}>
           <TableHead>
             <TableRow>
               <TableCell align="center">Sow ID</TableCell>
