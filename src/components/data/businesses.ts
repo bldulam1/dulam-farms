@@ -8,7 +8,7 @@ interface Business {
 const businesses: Business[] = [
   {
     name: 'Piggery',
-    link: '/piggery',
+    link: '/piggery/hogs',
     image:
       'https://images.unsplash.com/photo-1574220307753-957783ab948b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=60',
     description:

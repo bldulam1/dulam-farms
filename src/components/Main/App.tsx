@@ -16,6 +16,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 export default () => {
   const [state, setState] = useState<AppState>({
     isDarkMode: useMediaQuery('(prefers-color-scheme: dark)'),
+    drawerOpen: false,
   })
 
   const theme = React.useMemo(() => AppTheme(state.isDarkMode), [
@@ -29,8 +30,9 @@ export default () => {
           <Router>
             <CssBaseline />
             <LandingAppBar />
+
             <Switch>
-              <Route path="/piggery">
+              <Route path="/piggery/:subcategory">
                 <PiggeryMain />
               </Route>
               <Route path="/broiler">
